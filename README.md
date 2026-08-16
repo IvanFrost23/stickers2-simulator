@@ -74,12 +74,9 @@
 
 ## Деплой на GitHub Pages
 
-1. Создать пустой репозиторий (например `stickers2-simulator`) — публичный, либо приватный на платном плане.
-2. Скопировать в него `index.html`, `config.default.json`, `README.md`, запушить в `main`.
-3. GitHub → Settings → Pages → Source: `Deploy from a branch`, Branch: `main` / `(root)` → Save.
-4. Через минуту страница доступна на `https://<org>.github.io/stickers2-simulator/`.
+Сайт: **https://ivanfrost23.github.io/stickers2-simulator/** (репозиторий `IvanFrost23/stickers2-simulator`, ветка `main`, Pages из корня).
 
-Обновление: просто пушить новые версии файлов в `main`.
+Обновление: скопировать свежие `index.html` / `config.default.json` / `README.md` из этой папки в репозиторий `stickers2-simulator` и запушить в `main` — Pages пересоберётся сам за ~минуту.
 
 ## Как сверять с кодом игры
 
