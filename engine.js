@@ -176,7 +176,11 @@ function windowGrants(events, source, scenario, start, duration) {
 function buildSchedule(cfg, scenario) {
     const start = new Date(`${scenario.startDate}T00:00:00`);
     const end = new Date(start);
-    end.setMonth(end.getMonth() + scenario.months);
+    if (scenario.periodDays) {
+        end.setDate(end.getDate() + scenario.periodDays);
+    } else {
+        end.setMonth(end.getMonth() + scenario.months);
+    }
     const horizon = Math.round((end - start) / DAY_MS);
     const startDow = (start.getDay() + 6) % 7;
     const dateOf = (day) => new Date(start.getTime() + day * DAY_MS);

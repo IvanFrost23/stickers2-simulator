@@ -5,12 +5,13 @@
 
 let config = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
 const disabledSources = new Set();
-const segState = { months: 2, player: "free", place: 1 };
+const segState = { period: "2m", player: "free", place: 1 };
 
 function readScenario() {
     return {
         startDate: document.getElementById("startDate").value || "2026-09-01",
-        months: segState.months,
+        months: segState.period === "1m" ? 1 : 2,
+        periodDays: segState.period === "2w" ? 14 : 0,
         place: segState.place,
         runs: Math.max(10, Math.min(5000, parseInt(document.getElementById("runs").value, 10) || 300)),
         seed: parseInt(document.getElementById("seed").value, 10) || 1,
@@ -148,7 +149,13 @@ function renderLineChart(container, schedule, series, opts) {
         }, svg);
         label.textContent = fmt(Math.round(v));
     }
-    const weekStep = (n > 70 || W < 700 ? 14 : 7) * (n > 70 && W < 700 ? 2 : 1);
+    let weekStep = 7;
+    if (n > 35 && W < 700) {
+        weekStep = 14;
+    }
+    if (n > 70) {
+        weekStep = W < 700 ? 28 : 14;
+    }
     for (let d = 0; d < n; d += weekStep) {
         const label = el("text", {
             x: x(d), y: H - 8, "text-anchor": "middle", "font-size": 11, fill: "var(--text-muted)" 
@@ -638,11 +645,11 @@ function buildSeg(id, options, current, onPick) {
 
 function buildSegs() {
     buildSeg("periodSeg", [
-        { value: 1, label: "1 мес" },
-        { value: 2, label: "2 мес" },
-        { value: 3, label: "3 мес" }
-    ], segState.months, (v) => {
-        segState.months = v; 
+        { value: "2w", label: "2 нед" },
+        { value: "1m", label: "1 мес" },
+        { value: "2m", label: "2 мес" }
+    ], segState.period, (v) => {
+        segState.period = v;
     });
     buildSeg("playerSeg", [
         { value: "free", label: "Бесплатный" },
