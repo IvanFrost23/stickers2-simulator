@@ -6,8 +6,10 @@
 
 ## Что внутри
 
-- `index.html` — всё приложение одним файлом (движок симуляции + UI + графики).
-- `config.default.json` — дефолтный конфиг наград, сгенерированный из кода игры (тот же конфиг зашит в `index.html` как `DEFAULT_CONFIG`). Его можно править и загружать на страницу кнопкой «Загрузить JSON…».
+- `index.html` — разметка и стили страницы.
+- `engine.js` — движок симуляции без DOM (DEFAULT_CONFIG, календарь/расписание миссий, открытие паков, Monte Carlo, валидация конфига). Подключается и в браузере, и в node: `const E = require("./engine.js")` — удобно для тестов и скриптов.
+- `app.js` — UI: контролы, графики (SVG), таблицы, таймлайн, редактор конфига.
+- `config.default.json` — дефолтный конфиг наград, сгенерированный из кода игры (тот же конфиг зашит в `engine.js` как `DEFAULT_CONFIG` — страница работает с file:// без fetch). Его можно править и загружать на страницу кнопкой «Загрузить JSON…».
 
 Механика открытия пака — точный порт `StickersBook2.givePrize` из `features/src/season_collections2/stickersbook.js`: общий пул по 15 коллекциям, roll по рарности с нормализацией на непустые бакеты, `guaranteedNew` (Red), `firstCardMinRarity` + pity (Violet), дубликаты → очки `min(rarity+1, 5)`.
 
@@ -76,7 +78,7 @@
 
 Сайт: **https://ivanfrost23.github.io/stickers2-simulator/** (репозиторий `IvanFrost23/stickers2-simulator`, ветка `main`, Pages из корня).
 
-Обновление: скопировать свежие `index.html` / `config.default.json` / `README.md` из этой папки в репозиторий `stickers2-simulator` и запушить в `main` — Pages пересоберётся сам за ~минуту.
+Обновление: скопировать свежие `index.html` / `engine.js` / `app.js` / `config.default.json` / `README.md` из этой папки в репозиторий `stickers2-simulator` и запушить в `main` — Pages пересоберётся сам за ~минуту.
 
 ## Как сверять с кодом игры
 
