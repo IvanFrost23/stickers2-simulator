@@ -1,0 +1,170 @@
+{
+    "meta": {
+        "version": 1,
+        "generatedFrom": "merge3 code: features/src/season_collections2 (stickersbook.js, stickerscollection.js), merge3/src/config/rewardsconfig.json, cleverapps/src/utils/pass/passlevelsconfig.js, features/src/weekly_goals/configs/weeklygoalsmerge3config.json",
+        "generatedAt": "2026-08-16",
+        "game": "merge (mergecraft / wondermerge / fairy / hustlemerge)"
+    },
+    "rarities": {
+        "names": ["1★", "2★", "3★", "4★", "5★", "Gold"],
+        "dropProbabilities": [0.3435, 0.2623, 0.1756, 0.1062, 0.0625, 0.05],
+        "duplicatePoints": [1, 2, 3, 4, 5, 5]
+    },
+    "collections": [
+        [8, 1, 0, 0, 0, 0],
+        [7, 2, 0, 0, 0, 0],
+        [7, 1, 1, 0, 0, 0],
+        [5, 3, 1, 0, 0, 0],
+        [3, 4, 1, 1, 0, 0],
+        [2, 4, 1, 1, 1, 0],
+        [1, 3, 2, 1, 1, 1],
+        [0, 4, 2, 1, 1, 1],
+        [0, 3, 2, 1, 2, 1],
+        [0, 2, 2, 2, 1, 2],
+        [0, 1, 3, 1, 2, 2],
+        [0, 0, 3, 2, 2, 2],
+        [0, 0, 3, 2, 1, 3],
+        [0, 0, 2, 2, 2, 3],
+        [0, 0, 0, 4, 2, 3]
+    ],
+    "season": { "months": 2, "canRestart": true },
+    "pity": { "startCounter": 2, "chancePerStep": 0.3333 },
+    "packs": {
+        "Brown": { "amount": 2 },
+        "Green": { "amount": 3 },
+        "Blue": { "amount": 4 },
+        "Violet": { "amount": 6, "firstCardMinRarity": 2, "pity": true },
+        "Red": { "amount": 6, "guaranteedNew": true }
+    },
+    "slots": {
+        "primary": { "gapDays": 0 },
+        "secondary": { "gapDays": 2 }
+    },
+    "sources": [
+        {
+            "id": "weeklygoals",
+            "name": "Weekly Goals",
+            "enabled": true,
+            "schedule": { "type": "weekly" },
+            "packsByDay": [
+                ["Brown", "Brown"],
+                ["Brown", "Brown"],
+                ["Green", "Green"],
+                ["Green", "Green"],
+                ["Green", "Green"],
+                ["Blue", "Blue"],
+                ["Blue", "Blue"]
+            ]
+        },
+        {
+            "id": "kingscup",
+            "name": "King's Cup",
+            "enabled": true,
+            "schedule": { "type": "weekday", "window": "MON-FRI" },
+            "packsByPlace": [["Red"], ["Violet"], ["Blue"]]
+        },
+        {
+            "id": "tsearch",
+            "name": "Treasure Search",
+            "enabled": true,
+            "schedule": { "type": "weekday", "window": "MON-FRI" },
+            "packs": ["Brown", "Brown", "Green", "Blue", "Violet"]
+        },
+        {
+            "id": "spacerace",
+            "name": "Space Race",
+            "enabled": true,
+            "schedule": { "type": "weekday", "window": "FRI-MON" },
+            "packs": ["Brown", "Brown", "Green"]
+        },
+        {
+            "id": "island_decoration",
+            "name": "Island Decoration",
+            "enabled": true,
+            "schedule": { "type": "monthly", "fromDay": 1, "toDay": 20 },
+            "packs": ["Brown", "Brown", "Green", "Green", "Blue", "Blue", "Violet", "Red"]
+        },
+        {
+            "id": "softfeast",
+            "name": "Soft Feast",
+            "enabled": true,
+            "schedule": { "type": "rotation", "slot": "primary", "duration": 3 },
+            "packsByPlace": [["Red"], ["Violet"], ["Blue"]]
+        },
+        {
+            "id": "krakenfeast",
+            "name": "Kraken Feast",
+            "enabled": true,
+            "schedule": { "type": "rotation", "slot": "primary", "duration": 3 },
+            "packsByPlace": [["Red"], ["Violet"], ["Blue"]]
+        },
+        {
+            "id": "buildpass",
+            "name": "Build Pass",
+            "enabled": true,
+            "schedule": { "type": "rotation", "slot": "primary", "duration": 3, "cooldown": 28 },
+            "packs": ["Brown", "Brown", "Green", "Green", "Blue"],
+            "paidPacks": ["Blue", "Blue", "Blue", "Violet", "Red"],
+            "paidGroup": "passes"
+        },
+        {
+            "id": "salepass",
+            "name": "Sale Pass",
+            "enabled": true,
+            "schedule": { "type": "rotation", "slot": "primary", "duration": 3, "cooldown": 28 },
+            "packs": ["Brown", "Brown", "Green", "Green", "Blue"],
+            "paidPacks": ["Blue", "Blue", "Blue", "Violet", "Red"],
+            "paidGroup": "passes"
+        },
+        {
+            "id": "chainsale",
+            "name": "Chain Sale",
+            "enabled": true,
+            "schedule": { "type": "offer", "duration": 3, "cooldown": 14 },
+            "packs": ["Green"],
+            "paidPacks": ["Blue", "Violet", "Red"],
+            "paidGroup": "offers"
+        },
+        {
+            "id": "promotionsale",
+            "name": "Promotion Sale",
+            "enabled": true,
+            "schedule": { "type": "offer", "duration": 3, "cooldown": 14 },
+            "packs": [],
+            "paidPacks": ["Blue", "Red"],
+            "paidGroup": "offers"
+        },
+        {
+            "id": "supplies",
+            "name": "Supplies Sale",
+            "enabled": true,
+            "schedule": { "type": "offer", "duration": 7, "cooldown": 30 },
+            "packs": [],
+            "paidPacks": ["Brown", "Brown", "Green", "Green", "Blue", "Violet", "Red"],
+            "paidGroup": "offers"
+        },
+        {
+            "id": "caravan",
+            "name": "Caravan",
+            "enabled": true,
+            "schedule": { "type": "rotation", "slot": "secondary", "duration": 3 },
+            "packs": [],
+            "paidPacks": ["Blue", "Violet", "Red"],
+            "paidGroup": "offers"
+        },
+        {
+            "id": "chesttime",
+            "name": "Chest Time",
+            "enabled": true,
+            "schedule": { "type": "rotation", "slot": "secondary", "duration": 1 },
+            "packs": []
+        },
+        {
+            "id": "boosttime",
+            "name": "Boost Time",
+            "enabled": true,
+            "schedule": { "type": "rotation", "slot": "secondary", "duration": 1 },
+            "packs": []
+        }
+    ]
+}
