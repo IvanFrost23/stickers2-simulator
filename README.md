@@ -4,12 +4,19 @@
 
 Открывается двойным кликом по `index.html` — зависимостей и сборки нет.
 
+Переключатель «Игра» вверху страницы выбирает конфиг: **Merge3** (mergecraft / wondermerge / fairy / hustlemerge — `config.default.json`) или **Merge2** (garden — `config.merge2.json`). Выбор дублируется в хэше адреса: `index.html#merge2` открывает сразу merge2.
+
 ## Что внутри
 
 - `index.html` — разметка и стили страницы.
 - `engine.js` — движок симуляции без DOM (DEFAULT_CONFIG, календарь/расписание миссий, открытие паков, Monte Carlo, валидация конфига). Подключается и в браузере, и в node: `const E = require("./engine.js")` — удобно для тестов и скриптов.
 - `app.js` — UI: контролы, графики (SVG), таблицы, таймлайн, редактор конфига.
-- `config.default.json` — дефолтный конфиг наград, сгенерированный из кода игры (тот же конфиг зашит в `engine.js` как `DEFAULT_CONFIG` — страница работает с file:// без fetch). Его можно править и загружать на страницу кнопкой «Загрузить JSON…».
+- `config.default.json` — конфиг merge3, сгенерированный из кода игры (тот же конфиг зашит в `engine.js` как `DEFAULT_CONFIG` — страница работает с file:// без fetch). Его можно править и загружать на страницу кнопкой «Загрузить JSON…».
+- `config.merge2.json` — конфиг merge2 (garden), собран по таблице CollectionsConfigs (блок merge2), см. раздел ниже. `config.merge2.js` — тот же JSON, обёрнутый в глобал `MERGE2_CONFIG` для страницы; после правки JSON перегенерировать:
+
+  ```bash
+  node -e 'const c=require("./config.merge2.json");console.log(JSON.stringify(c,null,4))'   # вставить в config.merge2.js
+  ```
 
 Механика открытия пака — точный порт `StickersBook2.givePrize` из `features/src/season_collections2/stickersbook.js`: общий пул по 15 коллекциям, roll по рарности с нормализацией на непустые бакеты, `guaranteedNew` (Red), `firstCardMinRarity` + pity (Violet), дубликаты → очки `min(rarity+1, 5)`.
 
@@ -74,11 +81,29 @@
 - Pity-счётчик и очки переживают границу сезона.
 - LivesFeast в ротацию не включён (отключён в merge-играх), primary-слот = SoftFeast/KrakenFeast/BuildPass/SalePass.
 
+## Конфиг merge2 (garden)
+
+В коде merge2 stickers2-паков пока нет — конфиг собран по листу CollectionsConfigs (блок merge2, 2026-09-02), расписания взяты из кода. Все миссии merge2 — `SEMAPHORE_ALWAYS`, ротации/слотов нет:
+
+| Источник | Расписание | Паки (free) | Paid |
+|---|---|---|---|
+| Weekly Goals | всегда, 2 задания в день | пн Brown Brown · вт Brown Green · ср Green Green · чт Green Green · пт Green Blue · сб Blue Blue · вс Violet Violet | — |
+| King's Cup | MON-FRI | по месту: 1-е **Violet (допущение — в таблице пусто)**, 2-е Blue, 3-е Green | — |
+| Treasure Search | MON-FRI | сундуки 1/3/4/5: Brown, Green, Blue, Violet | — |
+| Level Mastery | MON-THU (merge2-особенность) | уровни 4/12/21: Brown, Green, Violet | — |
+| Lory's Derby | FRI-MON | уровни 3/10: Brown, Violet | — |
+| Island Decoration | 1–20 число | стадии 2/3/5/6/7 + за все: Brown, Green, Blue, Blue, Violet, Red | — |
+| Royal Pass (season_pass) | 1–30 число | уровни 5/12/20/30/35/45: Brown, Green, Blue, Blue, Blue, Violet | VIP: Blue, Violet, Violet, Violet, Violet, Red + Red за все уровни (`paidGroup: passes`) |
+| Space Race | FRI-MON | Green, Blue | выключен: фичи нет в garden/ladacha |
+| Lightning Rush | MON-FRI | Blue | выключен: фичи нет в garden/ladacha |
+
+Не включены (в таблице без паков): Hungry Games (три однодневных запуска пт/сб/вс), офферы TSearchPack / SpaceRacePack / LevelMasteryPack / HungryGamesPack, generator-офферы, магазин. Ladacha — подмножество garden: weeklygoals, kingscup, tsearch (остальные источники снять галочками).
+
 ## Деплой на GitHub Pages
 
 Сайт: **https://ivanfrost23.github.io/stickers2-simulator/** (репозиторий `IvanFrost23/stickers2-simulator`, ветка `main`, Pages из корня).
 
-Обновление: скопировать свежие `index.html` / `engine.js` / `app.js` / `config.default.json` / `README.md` из этой папки в репозиторий `stickers2-simulator` и запушить в `main` — Pages пересоберётся сам за ~минуту.
+Обновление: скопировать свежие `index.html` / `engine.js` / `app.js` / `config.merge2.js` / `config.default.json` / `config.merge2.json` / `README.md` из этой папки в репозиторий `stickers2-simulator` и запушить в `main` — Pages пересоберётся сам за ~минуту.
 
 ## Как сверять с кодом игры
 

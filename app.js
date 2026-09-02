@@ -3,9 +3,13 @@
  * Depends on engine.js (loaded before this file in index.html).
  */
 
-let config = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+const GAME_CONFIGS = { merge3: DEFAULT_CONFIG, merge2: MERGE2_CONFIG };
+const gameFromHash = window.location.hash.replace("#", "");
 const disabledSources = new Set();
-const segState = { period: "2m", player: "free", place: 1 };
+const segState = {
+    game: GAME_CONFIGS[gameFromHash] ? gameFromHash : "merge3", period: "2m", player: "free", place: 1 
+};
+let config = JSON.parse(JSON.stringify(GAME_CONFIGS[segState.game]));
 
 function readScenario() {
     return {
@@ -643,30 +647,6 @@ function buildSeg(id, options, current, onPick) {
     });
 }
 
-function buildSegs() {
-    buildSeg("periodSeg", [
-        { value: "2w", label: "2 нед" },
-        { value: "1m", label: "1 мес" },
-        { value: "2m", label: "2 мес" }
-    ], segState.period, (v) => {
-        segState.period = v;
-    });
-    buildSeg("playerSeg", [
-        { value: "free", label: "Бесплатный" },
-        { value: "passes", label: "С пассами" },
-        { value: "all", label: "Платит всё" }
-    ], segState.player, (v) => {
-        segState.player = v; 
-    });
-    buildSeg("placeSeg", [
-        { value: 1, label: "1-е" },
-        { value: 2, label: "2-е" },
-        { value: 3, label: "3-е" }
-    ], segState.place, (v) => {
-        segState.place = v; 
-    });
-}
-
 // ---------- config UI ----------
 function refreshCfgText() {
     document.getElementById("cfgText").value = JSON.stringify(config, null, 4);
@@ -768,6 +748,39 @@ function applyConfig(newCfg) {
     return true;
 }
 
+function buildSegs() {
+    buildSeg("gameSeg", [
+        { value: "merge3", label: "Merge3 (Mergecraft)" },
+        { value: "merge2", label: "Merge2 (Garden)" }
+    ], segState.game, (v) => {
+        segState.game = v;
+        window.location.hash = v;
+        disabledSources.clear();
+        applyConfig(JSON.parse(JSON.stringify(GAME_CONFIGS[v])));
+    });
+    buildSeg("periodSeg", [
+        { value: "2w", label: "2 нед" },
+        { value: "1m", label: "1 мес" },
+        { value: "2m", label: "2 мес" }
+    ], segState.period, (v) => {
+        segState.period = v;
+    });
+    buildSeg("playerSeg", [
+        { value: "free", label: "Бесплатный" },
+        { value: "passes", label: "С пассами" },
+        { value: "all", label: "Платит всё" }
+    ], segState.player, (v) => {
+        segState.player = v; 
+    });
+    buildSeg("placeSeg", [
+        { value: 1, label: "1-е" },
+        { value: 2, label: "2-е" },
+        { value: 3, label: "3-е" }
+    ], segState.place, (v) => {
+        segState.place = v; 
+    });
+}
+
 // ---------- main ----------
 ["startDate", "runs", "seed", "restartBook"].forEach((id) => {
     document.getElementById(id).addEventListener("change", run);
@@ -784,7 +797,7 @@ document.getElementById("cfgApply").addEventListener("click", () => {
 });
 document.getElementById("cfgReset").addEventListener("click", () => {
     disabledSources.clear();
-    applyConfig(JSON.parse(JSON.stringify(DEFAULT_CONFIG)));
+    applyConfig(JSON.parse(JSON.stringify(GAME_CONFIGS[segState.game])));
     run();
 });
 document.getElementById("cfgDownload").addEventListener("click", () => {
@@ -793,7 +806,7 @@ document.getElementById("cfgDownload").addEventListener("click", () => {
         const blob = new Blob([json], { type: "application/json" });
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
-        a.download = "stickers2-config.json";
+        a.download = `stickers2-config.${segState.game}.json`;
         a.click();
         URL.revokeObjectURL(a.href);
     };
@@ -803,7 +816,7 @@ document.getElementById("cfgDownload").addEventListener("click", () => {
                 browserDownload();
                 return;
             }
-            downloads.save({ filename: "stickers2-config.json", data: json }).catch((e) => {
+            downloads.save({ filename: `stickers2-config.${segState.game}.json`, data: json }).catch((e) => {
                 if (e && e.code !== "declined") {
                     document.getElementById("cfgError").textContent = `Не удалось сохранить: ${e.message || e.code || e}`;
                 }
