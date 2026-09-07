@@ -81,23 +81,50 @@
 - Pity-счётчик и очки переживают границу сезона.
 - LivesFeast в ротацию не включён (отключён в merge-играх), primary-слот = SoftFeast/KrakenFeast/BuildPass/SalePass.
 
-## Конфиг merge2 (garden)
+## Дефолтные конфиги (2026-09-07)
 
-В коде merge2 stickers2-паков пока нет — конфиг собран по листу CollectionsConfigs (блок merge2, 2026-09-02), расписания взяты из кода. Все миссии merge2 — `SEMAPHORE_ALWAYS`, ротации/слотов нет:
+Оба дефолта — балансовые конфиги от геймдизайна (формат `packsByPlace`: паки за 1/2/3-е место; Weekly Goals All — отдельный пак за закрытие всех заданий недели, окно SUN-MON = воскресенье).
 
-| Источник | Расписание | Паки (free) | Paid |
+### Merge3 (`config.default.json`, зашит в `engine.js` как `DEFAULT_CONFIG`)
+
+| Источник | Расписание | Бесплатные паки (по месту) | Платные |
 |---|---|---|---|
-| Weekly Goals | всегда, 2 задания в день | пн Brown Brown · вт Brown Green · ср Green Green · чт Green Green · пт Green Blue · сб Blue Blue · вс Violet Violet | — |
-| King's Cup | MON-FRI | по месту: 1-е **Violet (допущение — в таблице пусто)**, 2-е Blue, 3-е Green | — |
-| Treasure Search | MON-FRI | сундуки 1/3/4/5: Brown, Green, Blue, Violet | — |
-| Level Mastery | MON-THU (merge2-особенность) | уровни 4/12/21: Brown, Green, Violet | — |
-| Lory's Derby | FRI-MON | уровни 3/10: Brown, Violet | — |
-| Island Decoration | 1–20 число | стадии 2/3/5/6/7 + за все: Brown, Green, Blue, Blue, Violet, Red | — |
-| Royal Pass (season_pass) | 1–30 число | уровни 5/12/20/30/35/45: Brown, Green, Blue, Blue, Blue, Violet | VIP: Blue, Violet, Violet, Violet, Violet, Red + Red за все уровни (`paidGroup: passes`) |
-| Space Race | FRI-MON | Green, Blue | выключен: фичи нет в garden/ladacha |
-| Lightning Rush | MON-FRI | Blue | выключен: фичи нет в garden/ladacha |
+| Weekly Goals | всегда, по дням недели | пн Brown · вт Brown · ср Green · чт Green · пт Green · сб Blue · вс Blue | — |
+| Weekly Goals All | SUN-MON | 1-е: Violet; 2-е: —; 3-е: — | — |
+| King's Cup | MON-FRI | 1-е: Red; 2-е: Violet; 3-е: Blue | — |
+| Treasure Search | MON-FRI | 1-е: Brown, Brown, Green, Blue, Violet; 2-е: Brown, Brown, Green, Blue; 3-е: Brown, Brown, Green | — |
+| Space Race | FRI-MON | 1-е: Brown, Brown, Green; 2-е: Brown, Brown; 3-е: Brown | — |
+| Island Decoration | 1–20 число | 1-е: Brown, Brown, Green, Green, Blue, Violet, Red; 2-е: Brown, Brown, Green, Green, Blue, Violet; 3-е: Brown, Brown, Green, Green, Blue | — |
+| Soft Feast | ротация primary, 3 д | 1-е: Red; 2-е: Violet; 3-е: Blue | — |
+| Kraken Feast | ротация primary, 3 д | 1-е: Red; 2-е: Violet; 3-е: Blue | — |
+| Build Pass | ротация primary, 3 д, cooldown 28 д | 1-е: Brown, Brown, Green, Green, Blue; 2-е: Brown, Brown, Green, Green; 3-е: Brown, Brown, Green | Blue, Blue, Blue, Violet, Red (`paidGroup: passes`) |
+| Sale Pass | ротация primary, 3 д, cooldown 28 д | 1-е: Brown, Brown, Green, Green, Blue; 2-е: Brown, Brown, Green, Green; 3-е: Brown, Brown, Green | Blue, Blue, Blue, Violet, Red (`paidGroup: passes`) |
+| Chain Sale | оффер 3 д / cooldown 14 д | Green | Blue, Violet, Red (`paidGroup: offers`) |
+| Promotion Sale | оффер 3 д / cooldown 14 д | — | Blue, Red (`paidGroup: offers`) |
+| Supplies Sale | оффер 7 д / cooldown 30 д | — | Brown, Brown, Green, Green, Blue, Violet, Red (`paidGroup: offers`) |
+| Caravan | ротация secondary, 3 д | — | Blue, Violet, Red (`paidGroup: offers`) |
+| Chest Time | ротация secondary, 1 д | — | — |
+| Boost Time | ротация secondary, 1 д | — | — |
+| Royal Pass | 1–30 число | 1-е: Brown, Brown, Green, Green, Blue, Green, Blue, Blue, Green, Violet; 2-е: Brown, Brown, Green, Green, Blue, Green, Blue, Blue, Green; 3-е: Brown, Brown, Green, Green, Blue, Green, Blue | Green, Blue, Blue, Violet, Violet, Blue, Violet, Violet, Blue, Red (`paidGroup: passes`) |
 
-Не включены (в таблице без паков): Hungry Games (три однодневных запуска пт/сб/вс), офферы TSearchPack / SpaceRacePack / LevelMasteryPack / HungryGamesPack, generator-офферы, магазин. Ladacha — подмножество garden: weeklygoals, kingscup, tsearch (остальные источники снять галочками).
+### Merge2 (`config.merge2.json` / `config.merge2.js`)
+
+В коде merge2 stickers2-паков пока нет — конфиг = план. Все миссии merge2 — `SEMAPHORE_ALWAYS`, ротаций/слотов нет; Level Mastery идёт MON-THU (merge2-особенность). Ladacha — подмножество garden: weeklygoals, kingscup, tsearch (остальные источники снять галочками).
+
+| Источник | Расписание | Бесплатные паки (по месту) | Платные |
+|---|---|---|---|
+| Weekly Goals | всегда, по дням недели | пн Brown · вт Brown · ср Green · чт Green · пт Green · сб Blue · вс Violet | — |
+| Weekly Goals All | SUN-MON | 1-е: Red; 2-е: —; 3-е: — | — |
+| King's Cup | MON-FRI | 1-е: Violet; 2-е: Blue; 3-е: Green | — |
+| Treasure Search | MON-FRI | 1-е: Brown, Green, Green, Blue, Violet; 2-е: Brown, Green, Green, Blue; 3-е: Brown, Green, Green | Brown, Blue, Violet (`paidGroup: offers`) |
+| Level Mastery | MON-THU | 1-е: Brown, Brown, Green, Blue, Violet, Violet; 2-е: Brown, Brown, Green, Blue, Violet; 3-е: Brown, Green, Green | — |
+| Lory's Derby | FRI-MON | 1-е: Brown, Green, Violet, Red; 2-е: Brown, Green, Violet; 3-е: Brown, Green | Brown, Green, Blue, Violet, Red (`paidGroup: offers`) |
+| Space Race | FRI-MON | 1-е: Brown, Blue, Violet; 2-е: Brown, Blue; 3-е: Brown | Brown, Green, Blue (`paidGroup: offers`) |
+| Lightning Rush | MON-FRI | 1-е: Green; 2-е: —; 3-е: — | Brown, Green, Blue, Violet, Red (`paidGroup: offers`) |
+| Island Decoration | 1–20 число | 1-е: Brown, Brown, Green, Green, Blue, Violet, Red; 2-е: Brown, Brown, Green, Green, Blue, Violet; 3-е: Brown, Brown, Green, Green, Blue | — |
+| Royal Pass | 1–30 число | 1-е: Brown, Brown, Green, Green, Blue, Green, Blue, Blue, Green, Violet; 2-е: Brown, Brown, Green, Green, Blue, Green, Blue, Blue, Green; 3-е: Brown, Brown, Green, Green, Blue, Green, Blue | Green, Blue, Blue, Violet, Violet, Blue, Violet, Violet, Blue, Red (`paidGroup: passes`) |
+
+Не включены: Hungry Games (три однодневных запуска пт/сб/вс), generator-офферы, магазин.
 
 ## Деплой на GitHub Pages
 
@@ -107,7 +134,7 @@
 
 ## Как сверять с кодом игры
 
-Дефолтный конфиг собран из (по состоянию на 2026-08-16):
+Первая версия дефолтного merge3-конфига (2026-08-16) была собрана из кода; с 2026-09-07 дефолты заданы геймдизайном (см. таблицы выше). Источники в коде для сверки:
 
 - паки и вероятности: `features/src/season_collections2/stickersbook.js`, `stickerscollection.js`;
 - weekly goals: `features/src/weekly_goals/configs/weeklygoalsmerge3config.json`;
@@ -117,4 +144,4 @@
 - остальное (tsearch, spacerace, feasts, promotionsale, supplies, chainsale, caravan, магазин): `merge3/src/config/rewardsconfig.json`;
 - расписания: `schedule: "MON-FRI"` из миссий, `duration`/`cooldown` из `cleverapps/src/utils/missions/missions.js` и `offers/offers.js`, island — из `res/schedule.json` игр (1–20 число).
 
-При изменении наград в коде — поправить `config.default.json` и `DEFAULT_CONFIG` в `index.html` (они дублируются, чтобы страница работала с диска без fetch).
+При смене дефолта merge3 — заменить `config.default.json` и перегенерировать `DEFAULT_CONFIG` в `engine.js` (дублируются, чтобы страница работала с диска без fetch): вставить `JSON.stringify(cfg, null, 4)` вместо литерала и прогнать `npx eslint --fix engine.js`. Для merge2 — то же с `config.merge2.json` → `config.merge2.js`.

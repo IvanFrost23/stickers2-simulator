@@ -4,121 +4,622 @@
  */
 
 const DEFAULT_CONFIG = {
-    meta: { version: 1, generatedFrom: "merge3 code", generatedAt: "2026-08-16" },
-    rarities: {
-        names: ["1★", "2★", "3★", "4★", "5★", "Gold"],
-        dropProbabilities: [0.3435, 0.2623, 0.1756, 0.1062, 0.0625, 0.05],
-        duplicatePoints: [1, 2, 3, 4, 5, 5]
+    "meta": {
+        "version": 1,
+        "generatedFrom": "merge3 code",
+        "generatedAt": "2026-08-16"
     },
-    collections: [
-        [8, 1, 0, 0, 0, 0], [7, 2, 0, 0, 0, 0], [7, 1, 1, 0, 0, 0], [5, 3, 1, 0, 0, 0],
-        [3, 4, 1, 1, 0, 0], [2, 4, 1, 1, 1, 0], [1, 3, 2, 1, 1, 1], [0, 4, 2, 1, 1, 1],
-        [0, 3, 2, 1, 2, 1], [0, 2, 2, 2, 1, 2], [0, 1, 3, 1, 2, 2], [0, 0, 3, 2, 2, 2],
-        [0, 0, 3, 2, 1, 3], [0, 0, 2, 2, 2, 3], [0, 0, 0, 4, 2, 3]
+    "rarities": {
+        "names": [
+            "1★",
+            "2★",
+            "3★",
+            "4★",
+            "5★",
+            "Gold"
+        ],
+        "dropProbabilities": [
+            0.3435,
+            0.2623,
+            0.1756,
+            0.1062,
+            0.0625,
+            0.05
+        ],
+        "duplicatePoints": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            5
+        ]
+    },
+    "collections": [
+        [
+            8,
+            1,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            7,
+            2,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            7,
+            1,
+            1,
+            0,
+            0,
+            0
+        ],
+        [
+            5,
+            3,
+            1,
+            0,
+            0,
+            0
+        ],
+        [
+            3,
+            4,
+            1,
+            1,
+            0,
+            0
+        ],
+        [
+            2,
+            4,
+            1,
+            1,
+            1,
+            0
+        ],
+        [
+            1,
+            3,
+            2,
+            1,
+            1,
+            1
+        ],
+        [
+            0,
+            4,
+            2,
+            1,
+            1,
+            1
+        ],
+        [
+            0,
+            3,
+            2,
+            1,
+            2,
+            1
+        ],
+        [
+            0,
+            2,
+            2,
+            2,
+            1,
+            2
+        ],
+        [
+            0,
+            1,
+            3,
+            1,
+            2,
+            2
+        ],
+        [
+            0,
+            0,
+            3,
+            2,
+            2,
+            2
+        ],
+        [
+            0,
+            0,
+            3,
+            2,
+            1,
+            3
+        ],
+        [
+            0,
+            0,
+            2,
+            2,
+            2,
+            3
+        ],
+        [
+            0,
+            0,
+            0,
+            4,
+            2,
+            3
+        ]
     ],
-    season: { months: 2, canRestart: true },
-    pity: { startCounter: 2, chancePerStep: 0.3333 },
-    packs: {
-        Brown: { amount: 2 },
-        Green: { amount: 3 },
-        Blue: { amount: 4 },
-        Violet: { amount: 6, firstCardMinRarity: 2, pity: true },
-        Red: { amount: 6, guaranteedNew: true }
+    "season": {
+        "months": 2,
+        "canRestart": true
     },
-    slots: { primary: { gapDays: 0 }, secondary: { gapDays: 2 } },
-    sources: [
-        {
-            id: "weeklygoals",
-            name: "Weekly Goals",
-            enabled: true,
-            schedule: { type: "weekly" },
-            packsByDay: [["Brown", "Brown"], ["Brown", "Brown"], ["Green", "Green"], ["Green", "Green"], ["Green", "Green"], ["Blue", "Blue"], ["Blue", "Blue"]] 
+    "pity": {
+        "startCounter": 2,
+        "chancePerStep": 0.3333
+    },
+    "packs": {
+        "Brown": {
+            "amount": 2
         },
-        {
-            id: "kingscup", name: "King's Cup", enabled: true, schedule: { type: "weekday", window: "MON-FRI" }, packsByPlace: [["Red"], ["Violet"], ["Blue"]] 
+        "Green": {
+            "amount": 3
         },
-        {
-            id: "tsearch", name: "Treasure Search", enabled: true, schedule: { type: "weekday", window: "MON-FRI" }, packs: ["Brown", "Brown", "Green", "Blue", "Violet"] 
+        "Blue": {
+            "amount": 4
         },
-        {
-            id: "spacerace", name: "Space Race", enabled: true, schedule: { type: "weekday", window: "FRI-MON" }, packs: ["Brown", "Brown", "Green"] 
+        "Violet": {
+            "amount": 6,
+            "firstCardMinRarity": 2,
+            "pity": true
         },
-        {
-            id: "island_decoration",
-            name: "Island Decoration",
-            enabled: true,
-            schedule: { type: "monthly", fromDay: 1, toDay: 20 },
-            packs: ["Brown", "Brown", "Green", "Green", "Blue", "Blue", "Violet", "Red"] 
+        "Red": {
+            "amount": 6,
+            "guaranteedNew": true
+        }
+    },
+    "slots": {
+        "primary": {
+            "gapDays": 0
         },
+        "secondary": {
+            "gapDays": 2
+        }
+    },
+    "sources": [
         {
-            id: "softfeast", name: "Soft Feast", enabled: true, schedule: { type: "rotation", slot: "primary", duration: 3 }, packsByPlace: [["Red"], ["Violet"], ["Blue"]] 
-        },
-        {
-            id: "krakenfeast", name: "Kraken Feast", enabled: true, schedule: { type: "rotation", slot: "primary", duration: 3 }, packsByPlace: [["Red"], ["Violet"], ["Blue"]] 
-        },
-        {
-            id: "buildpass",
-            name: "Build Pass",
-            enabled: true,
-            schedule: {
-                type: "rotation", slot: "primary", duration: 3, cooldown: 28 
+            "id": "weeklygoals",
+            "name": "Weekly Goals",
+            "enabled": true,
+            "schedule": {
+                "type": "weekly"
             },
-            packs: ["Brown", "Brown", "Green", "Green", "Blue"],
-            paidPacks: ["Blue", "Blue", "Blue", "Violet", "Red"],
-            paidGroup: "passes" 
+            "packsByDay": [
+                [
+                    "Brown"
+                ],
+                [
+                    "Brown"
+                ],
+                [
+                    "Green"
+                ],
+                [
+                    "Green"
+                ],
+                [
+                    "Green"
+                ],
+                [
+                    "Blue"
+                ],
+                [
+                    "Blue"
+                ]
+            ]
         },
         {
-            id: "salepass",
-            name: "Sale Pass",
-            enabled: true,
-            schedule: {
-                type: "rotation", slot: "primary", duration: 3, cooldown: 28 
+            "id": "weeklygoalsall",
+            "name": "Weekly Goals All",
+            "enabled": true,
+            "schedule": {
+                "type": "weekday",
+                "window": "SUN-MON"
             },
-            packs: ["Brown", "Brown", "Green", "Green", "Blue"],
-            paidPacks: ["Blue", "Blue", "Blue", "Violet", "Red"],
-            paidGroup: "passes" 
+            "packsByPlace": [
+                [
+                    "Violet"
+                ],
+                [],
+                []
+            ]
         },
         {
-            id: "chainsale",
-            name: "Chain Sale",
-            enabled: true,
-            schedule: { type: "offer", duration: 3, cooldown: 14 },
-            packs: ["Green"],
-            paidPacks: ["Blue", "Violet", "Red"],
-            paidGroup: "offers" 
+            "id": "kingscup",
+            "name": "King's Cup",
+            "enabled": true,
+            "schedule": {
+                "type": "weekday",
+                "window": "MON-FRI"
+            },
+            "packsByPlace": [
+                [
+                    "Red"
+                ],
+                [
+                    "Violet"
+                ],
+                [
+                    "Blue"
+                ]
+            ]
         },
         {
-            id: "promotionsale",
-            name: "Promotion Sale",
-            enabled: true,
-            schedule: { type: "offer", duration: 3, cooldown: 14 },
-            packs: [],
-            paidPacks: ["Blue", "Red"],
-            paidGroup: "offers" 
+            "id": "tsearch",
+            "name": "Treasure Search",
+            "enabled": true,
+            "schedule": {
+                "type": "weekday",
+                "window": "MON-FRI"
+            },
+            "packsByPlace": [
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Blue",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Blue"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green"
+                ]
+            ]
         },
         {
-            id: "supplies",
-            name: "Supplies Sale",
-            enabled: true,
-            schedule: { type: "offer", duration: 7, cooldown: 30 },
-            packs: [],
-            paidPacks: ["Brown", "Brown", "Green", "Green", "Blue", "Violet", "Red"],
-            paidGroup: "offers" 
+            "id": "spacerace",
+            "name": "Space Race",
+            "enabled": true,
+            "schedule": {
+                "type": "weekday",
+                "window": "FRI-MON"
+            },
+            "packsByPlace": [
+                [
+                    "Brown",
+                    "Brown",
+                    "Green"
+                ],
+                [
+                    "Brown",
+                    "Brown"
+                ],
+                [
+                    "Brown"
+                ]
+            ]
         },
         {
-            id: "caravan",
-            name: "Caravan",
-            enabled: true,
-            schedule: { type: "rotation", slot: "secondary", duration: 3 },
-            packs: [],
-            paidPacks: ["Blue", "Violet", "Red"],
-            paidGroup: "offers" 
+            "id": "island_decoration",
+            "name": "Island Decoration",
+            "enabled": true,
+            "schedule": {
+                "type": "monthly",
+                "fromDay": 1,
+                "toDay": 20
+            },
+            "packsByPlace": [
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Violet",
+                    "Red"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue"
+                ]
+            ]
         },
         {
-            id: "chesttime", name: "Chest Time", enabled: true, schedule: { type: "rotation", slot: "secondary", duration: 1 }, packs: [] 
+            "id": "softfeast",
+            "name": "Soft Feast",
+            "enabled": true,
+            "schedule": {
+                "type": "rotation",
+                "slot": "primary",
+                "duration": 3
+            },
+            "packsByPlace": [
+                [
+                    "Red"
+                ],
+                [
+                    "Violet"
+                ],
+                [
+                    "Blue"
+                ]
+            ]
         },
         {
-            id: "boosttime", name: "Boost Time", enabled: true, schedule: { type: "rotation", slot: "secondary", duration: 1 }, packs: [] 
+            "id": "krakenfeast",
+            "name": "Kraken Feast",
+            "enabled": true,
+            "schedule": {
+                "type": "rotation",
+                "slot": "primary",
+                "duration": 3
+            },
+            "packsByPlace": [
+                [
+                    "Red"
+                ],
+                [
+                    "Violet"
+                ],
+                [
+                    "Blue"
+                ]
+            ]
+        },
+        {
+            "id": "buildpass",
+            "name": "Build Pass",
+            "enabled": true,
+            "schedule": {
+                "type": "rotation",
+                "slot": "primary",
+                "duration": 3,
+                "cooldown": 28
+            },
+            "packsByPlace": [
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green"
+                ]
+            ],
+            "paidPacks": [
+                "Blue",
+                "Blue",
+                "Blue",
+                "Violet",
+                "Red"
+            ],
+            "paidGroup": "passes"
+        },
+        {
+            "id": "salepass",
+            "name": "Sale Pass",
+            "enabled": true,
+            "schedule": {
+                "type": "rotation",
+                "slot": "primary",
+                "duration": 3,
+                "cooldown": 28
+            },
+            "packsByPlace": [
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green"
+                ]
+            ],
+            "paidPacks": [
+                "Blue",
+                "Blue",
+                "Blue",
+                "Violet",
+                "Red"
+            ],
+            "paidGroup": "passes"
+        },
+        {
+            "id": "chainsale",
+            "name": "Chain Sale",
+            "enabled": true,
+            "schedule": {
+                "type": "offer",
+                "duration": 3,
+                "cooldown": 14
+            },
+            "packs": [
+                "Green"
+            ],
+            "paidPacks": [
+                "Blue",
+                "Violet",
+                "Red"
+            ],
+            "paidGroup": "offers"
+        },
+        {
+            "id": "promotionsale",
+            "name": "Promotion Sale",
+            "enabled": true,
+            "schedule": {
+                "type": "offer",
+                "duration": 3,
+                "cooldown": 14
+            },
+            "packs": [],
+            "paidPacks": [
+                "Blue",
+                "Red"
+            ],
+            "paidGroup": "offers"
+        },
+        {
+            "id": "supplies",
+            "name": "Supplies Sale",
+            "enabled": true,
+            "schedule": {
+                "type": "offer",
+                "duration": 7,
+                "cooldown": 30
+            },
+            "packs": [],
+            "paidPacks": [
+                "Brown",
+                "Brown",
+                "Green",
+                "Green",
+                "Blue",
+                "Violet",
+                "Red"
+            ],
+            "paidGroup": "offers"
+        },
+        {
+            "id": "caravan",
+            "name": "Caravan",
+            "enabled": true,
+            "schedule": {
+                "type": "rotation",
+                "slot": "secondary",
+                "duration": 3
+            },
+            "packs": [],
+            "paidPacks": [
+                "Blue",
+                "Violet",
+                "Red"
+            ],
+            "paidGroup": "offers"
+        },
+        {
+            "id": "chesttime",
+            "name": "Chest Time",
+            "enabled": true,
+            "schedule": {
+                "type": "rotation",
+                "slot": "secondary",
+                "duration": 1
+            },
+            "packs": []
+        },
+        {
+            "id": "boosttime",
+            "name": "Boost Time",
+            "enabled": true,
+            "schedule": {
+                "type": "rotation",
+                "slot": "secondary",
+                "duration": 1
+            },
+            "packs": []
+        },
+        {
+            "id": "season_pass",
+            "name": "Royal Pass",
+            "enabled": true,
+            "schedule": {
+                "type": "monthly",
+                "fromDay": 1,
+                "toDay": 30
+            },
+            "packsByPlace": [
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Green",
+                    "Blue",
+                    "Blue",
+                    "Green",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Green",
+                    "Blue",
+                    "Blue",
+                    "Green"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Green",
+                    "Blue"
+                ]
+            ],
+            "paidPacks": [
+                "Green",
+                "Blue",
+                "Blue",
+                "Violet",
+                "Violet",
+                "Blue",
+                "Violet",
+                "Violet",
+                "Blue",
+                "Red"
+            ],
+            "paidGroup": "passes"
         }
     ]
 };

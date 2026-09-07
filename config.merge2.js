@@ -211,33 +211,42 @@ const MERGE2_CONFIG = {
             },
             "packsByDay": [
                 [
-                    "Brown",
                     "Brown"
                 ],
                 [
-                    "Brown",
+                    "Brown"
+                ],
+                [
                     "Green"
                 ],
                 [
-                    "Green",
                     "Green"
                 ],
                 [
-                    "Green",
                     "Green"
                 ],
                 [
-                    "Green",
                     "Blue"
                 ],
                 [
-                    "Blue",
-                    "Blue"
-                ],
-                [
-                    "Violet",
                     "Violet"
                 ]
+            ]
+        },
+        {
+            "id": "weeklygoalsall",
+            "name": "Weekly Goals All",
+            "enabled": true,
+            "schedule": {
+                "type": "weekday",
+                "window": "SUN-MON"
+            },
+            "packsByPlace": [
+                [
+                    "Red"
+                ],
+                [],
+                []
             ]
         },
         {
@@ -268,12 +277,32 @@ const MERGE2_CONFIG = {
                 "type": "weekday",
                 "window": "MON-FRI"
             },
-            "packs": [
+            "packsByPlace": [
+                [
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue"
+                ],
+                [
+                    "Brown",
+                    "Green",
+                    "Green"
+                ]
+            ],
+            "paidPacks": [
                 "Brown",
-                "Green",
                 "Blue",
                 "Violet"
-            ]
+            ],
+            "paidGroup": "offers"
         },
         {
             "id": "levelmastery",
@@ -283,10 +312,27 @@ const MERGE2_CONFIG = {
                 "type": "weekday",
                 "window": "MON-THU"
             },
-            "packs": [
-                "Brown",
-                "Green",
-                "Violet"
+            "packsByPlace": [
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Blue",
+                    "Violet",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Blue",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Green",
+                    "Green"
+                ]
             ]
         },
         {
@@ -297,35 +343,84 @@ const MERGE2_CONFIG = {
                 "type": "weekday",
                 "window": "FRI-MON"
             },
-            "packs": [
+            "packsByPlace": [
+                [
+                    "Brown",
+                    "Green",
+                    "Violet",
+                    "Red"
+                ],
+                [
+                    "Brown",
+                    "Green",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Green"
+                ]
+            ],
+            "paidPacks": [
                 "Brown",
-                "Violet"
-            ]
+                "Green",
+                "Blue",
+                "Violet",
+                "Red"
+            ],
+            "paidGroup": "offers"
         },
         {
             "id": "spacerace",
             "name": "Space Race",
-            "enabled": false,
+            "enabled": true,
             "schedule": {
                 "type": "weekday",
                 "window": "FRI-MON"
             },
-            "packs": [
+            "packsByPlace": [
+                [
+                    "Brown",
+                    "Blue",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Blue"
+                ],
+                [
+                    "Brown"
+                ]
+            ],
+            "paidPacks": [
+                "Brown",
                 "Green",
                 "Blue"
-            ]
+            ],
+            "paidGroup": "offers"
         },
         {
             "id": "lightningrush",
             "name": "Lightning Rush",
-            "enabled": false,
+            "enabled": true,
             "schedule": {
                 "type": "weekday",
                 "window": "MON-FRI"
             },
-            "packs": [
-                "Blue"
-            ]
+            "packsByPlace": [
+                [
+                    "Green"
+                ],
+                [],
+                []
+            ],
+            "paidPacks": [
+                "Brown",
+                "Green",
+                "Blue",
+                "Violet",
+                "Red"
+            ],
+            "paidGroup": "offers"
         },
         {
             "id": "island_decoration",
@@ -336,13 +431,31 @@ const MERGE2_CONFIG = {
                 "fromDay": 1,
                 "toDay": 20
             },
-            "packs": [
-                "Brown",
-                "Green",
-                "Blue",
-                "Blue",
-                "Violet",
-                "Red"
+            "packsByPlace": [
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Violet",
+                    "Red"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue"
+                ]
             ]
         },
         {
@@ -354,21 +467,50 @@ const MERGE2_CONFIG = {
                 "fromDay": 1,
                 "toDay": 30
             },
-            "packs": [
-                "Brown",
+            "packsByPlace": [
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Green",
+                    "Blue",
+                    "Blue",
+                    "Green",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Green",
+                    "Blue",
+                    "Blue",
+                    "Green"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Green",
+                    "Blue"
+                ]
+            ],
+            "paidPacks": [
                 "Green",
                 "Blue",
                 "Blue",
-                "Blue",
-                "Violet"
-            ],
-            "paidPacks": [
+                "Violet",
+                "Violet",
                 "Blue",
                 "Violet",
                 "Violet",
-                "Violet",
-                "Violet",
-                "Red",
+                "Blue",
                 "Red"
             ],
             "paidGroup": "passes"
