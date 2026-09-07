@@ -104,7 +104,7 @@
 | Caravan | ротация secondary, 3 д | — | Blue, Violet, Red (`paidGroup: offers`) |
 | Chest Time | ротация secondary, 1 д | — | — |
 | Boost Time | ротация secondary, 1 д | — | — |
-| Royal Pass | 1–30 число | 1-е: Brown, Brown, Green, Green, Blue, Green, Blue, Blue, Green, Violet; 2-е: Brown, Brown, Green, Green, Blue, Green, Blue, Blue, Green; 3-е: Brown, Brown, Green, Green, Blue, Green, Blue | Green, Blue, Blue, Violet, Violet, Blue, Violet, Violet, Blue, Red (`paidGroup: passes`) |
+| Season Pass | 1–30 число | 1-е: Brown, Brown, Green, Green, Blue, Green, Blue, Blue, Green, Violet; 2-е: Brown, Brown, Green, Green, Blue, Green, Blue, Blue, Green; 3-е: Brown, Brown, Green, Green, Blue, Green, Blue | Green, Blue, Blue, Violet, Violet, Blue, Violet, Violet, Blue, Red (`paidGroup: passes`) |
 
 ### Merge2 (`config.merge2.json` / `config.merge2.js`)
 
@@ -120,7 +120,7 @@
 | Space Race | FRI-MON | 1-е: Brown, Blue, Violet; 2-е: Brown, Blue; 3-е: Brown | Brown, Green, Blue (`paidGroup: offers`) |
 | Lightning Rush | MON-FRI | 1-е: Green; 2-е: —; 3-е: — | Brown, Green, Blue, Violet, Red (`paidGroup: offers`) |
 | Island Decoration | 1–20 число | 1-е: Brown, Brown, Green, Green, Blue, Violet, Red; 2-е: Brown, Brown, Green, Green, Blue, Violet; 3-е: Brown, Brown, Green, Green, Blue | — |
-| Royal Pass | 1–30 число | 1-е: Brown, Brown, Green, Green, Blue, Green, Blue, Blue, Green, Violet; 2-е: Brown, Brown, Green, Green, Blue, Green, Blue, Blue, Green; 3-е: Brown, Brown, Green, Green, Blue, Green, Blue | Green, Blue, Blue, Violet, Violet, Blue, Violet, Violet, Blue, Red (`paidGroup: passes`) |
+| Season Pass | 1–30 число | 1-е: Brown, Brown, Green, Green, Blue, Green, Blue, Blue, Green, Violet; 2-е: Brown, Brown, Green, Green, Blue, Green, Blue, Blue, Green; 3-е: Brown, Brown, Green, Green, Blue, Green, Blue | Green, Blue, Blue, Violet, Violet, Blue, Violet, Violet, Blue, Red (`paidGroup: passes`) |
 
 Не включены: Hungry Games (три однодневных запуска пт/сб/вс), generator-офферы, магазин.
 

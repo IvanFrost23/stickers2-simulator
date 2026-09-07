@@ -551,7 +551,7 @@ const DEFAULT_CONFIG = {
         },
         {
             "id": "season_pass",
-            "name": "Royal Pass",
+            "name": "Season Pass",
             "enabled": true,
             "schedule": {
                 "type": "monthly",
