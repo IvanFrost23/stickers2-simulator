@@ -216,19 +216,9 @@
                     "Blue"
                 ],
                 [
-                    "Blue"
+                    "Blue",
+                    "Violet"
                 ]
-            ]
-        },
-        {
-            "id": "weeklygoalsall",
-            "name": "Weekly Goals All",
-            "enabled": true,
-            "schedule": { "type": "weekday", "window": "SUN-MON" },
-            "packsByPlace": [
-                ["Violet"],
-                [],
-                []
             ]
         },
         {
@@ -260,9 +250,24 @@
                 "window": "MON-FRI"
             },
             "packsByPlace": [
-                ["Brown", "Brown", "Green", "Blue", "Violet"],
-                ["Brown", "Brown", "Green", "Blue"],
-                ["Brown", "Brown", "Green"]
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Blue",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Blue"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green"
+                ]
             ]
         },
         {
@@ -274,9 +279,18 @@
                 "window": "FRI-MON"
             },
             "packsByPlace": [
-                ["Brown", "Brown", "Green"],
-                ["Brown", "Brown"],
-                ["Brown"]
+                [
+                    "Brown",
+                    "Brown",
+                    "Green"
+                ],
+                [
+                    "Brown",
+                    "Brown"
+                ],
+                [
+                    "Brown"
+                ]
             ]
         },
         {
@@ -289,9 +303,30 @@
                 "toDay": 20
             },
             "packsByPlace": [
-                ["Brown", "Brown", "Green", "Green", "Blue", "Violet", "Red"],
-                ["Brown", "Brown", "Green", "Green", "Blue", "Violet"],
-                ["Brown", "Brown", "Green", "Green", "Blue"]
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Violet",
+                    "Red"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue"
+                ]
             ]
         },
         {
@@ -347,9 +382,24 @@
                 "cooldown": 28
             },
             "packsByPlace": [
-                ["Brown", "Brown", "Green", "Green", "Blue"],
-                ["Brown", "Brown", "Green", "Green"],
-                ["Brown", "Brown", "Green"]
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green"
+                ]
             ],
             "paidPacks": [
                 "Blue",
@@ -371,9 +421,24 @@
                 "cooldown": 28
             },
             "packsByPlace": [
-                ["Brown", "Brown", "Green", "Green", "Blue"],
-                ["Brown", "Brown", "Green", "Green"],
-                ["Brown", "Brown", "Green"]
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green"
+                ]
             ],
             "paidPacks": [
                 "Blue",
@@ -483,13 +548,57 @@
             "id": "season_pass",
             "name": "Royal Pass",
             "enabled": true,
-            "schedule": { "type": "monthly", "fromDay": 1, "toDay": 30 },
+            "schedule": {
+                "type": "monthly",
+                "fromDay": 1,
+                "toDay": 30
+            },
             "packsByPlace": [
-                ["Brown", "Brown", "Green", "Green", "Blue", "Green", "Blue", "Blue", "Green", "Violet"],
-                ["Brown", "Brown", "Green", "Green", "Blue", "Green", "Blue", "Blue", "Green"],
-                ["Brown", "Brown", "Green", "Green", "Blue", "Green", "Blue"]
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Green",
+                    "Blue",
+                    "Blue",
+                    "Green",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Green",
+                    "Blue",
+                    "Blue",
+                    "Green"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Green",
+                    "Blue"
+                ]
             ],
-            "paidPacks": ["Green", "Blue", "Blue", "Violet", "Violet", "Blue", "Violet", "Violet", "Blue", "Red"],
+            "paidPacks": [
+                "Green",
+                "Blue",
+                "Blue",
+                "Violet",
+                "Violet",
+                "Blue",
+                "Violet",
+                "Violet",
+                "Blue",
+                "Red"
+            ],
             "paidGroup": "passes"
         }
     ]

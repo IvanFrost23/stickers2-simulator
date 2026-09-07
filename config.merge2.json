@@ -12,159 +12,486 @@
         ]
     },
     "rarities": {
-        "names": ["1★", "2★", "3★", "4★", "5★", "Gold"],
-        "dropProbabilities": [0.3435, 0.2623, 0.1756, 0.1062, 0.0625, 0.05],
-        "duplicatePoints": [1, 2, 3, 4, 5, 5]
+        "names": [
+            "1★",
+            "2★",
+            "3★",
+            "4★",
+            "5★",
+            "Gold"
+        ],
+        "dropProbabilities": [
+            0.3435,
+            0.2623,
+            0.1756,
+            0.1062,
+            0.0625,
+            0.05
+        ],
+        "duplicatePoints": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            5
+        ]
     },
     "collections": [
-        [8, 1, 0, 0, 0, 0],
-        [7, 2, 0, 0, 0, 0],
-        [7, 1, 1, 0, 0, 0],
-        [5, 3, 1, 0, 0, 0],
-        [3, 4, 1, 1, 0, 0],
-        [2, 4, 1, 1, 1, 0],
-        [1, 3, 2, 1, 1, 1],
-        [0, 4, 2, 1, 1, 1],
-        [0, 3, 2, 1, 2, 1],
-        [0, 2, 2, 2, 1, 2],
-        [0, 1, 3, 1, 2, 2],
-        [0, 0, 3, 2, 2, 2],
-        [0, 0, 3, 2, 1, 3],
-        [0, 0, 2, 2, 2, 3],
-        [0, 0, 0, 4, 2, 3]
+        [
+            8,
+            1,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            7,
+            2,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            7,
+            1,
+            1,
+            0,
+            0,
+            0
+        ],
+        [
+            5,
+            3,
+            1,
+            0,
+            0,
+            0
+        ],
+        [
+            3,
+            4,
+            1,
+            1,
+            0,
+            0
+        ],
+        [
+            2,
+            4,
+            1,
+            1,
+            1,
+            0
+        ],
+        [
+            1,
+            3,
+            2,
+            1,
+            1,
+            1
+        ],
+        [
+            0,
+            4,
+            2,
+            1,
+            1,
+            1
+        ],
+        [
+            0,
+            3,
+            2,
+            1,
+            2,
+            1
+        ],
+        [
+            0,
+            2,
+            2,
+            2,
+            1,
+            2
+        ],
+        [
+            0,
+            1,
+            3,
+            1,
+            2,
+            2
+        ],
+        [
+            0,
+            0,
+            3,
+            2,
+            2,
+            2
+        ],
+        [
+            0,
+            0,
+            3,
+            2,
+            1,
+            3
+        ],
+        [
+            0,
+            0,
+            2,
+            2,
+            2,
+            3
+        ],
+        [
+            0,
+            0,
+            0,
+            4,
+            2,
+            3
+        ]
     ],
-    "season": { "months": 2, "canRestart": true },
-    "pity": { "startCounter": 2, "chancePerStep": 0.3333 },
+    "season": {
+        "months": 2,
+        "canRestart": true
+    },
+    "pity": {
+        "startCounter": 2,
+        "chancePerStep": 0.3333
+    },
     "packs": {
-        "Brown": { "amount": 2 },
-        "Green": { "amount": 3 },
-        "Blue": { "amount": 4 },
-        "Violet": { "amount": 6, "firstCardMinRarity": 2, "pity": true },
-        "Red": { "amount": 6, "guaranteedNew": true }
+        "Brown": {
+            "amount": 2
+        },
+        "Green": {
+            "amount": 3
+        },
+        "Blue": {
+            "amount": 4
+        },
+        "Violet": {
+            "amount": 6,
+            "firstCardMinRarity": 2,
+            "pity": true
+        },
+        "Red": {
+            "amount": 6,
+            "guaranteedNew": true
+        }
     },
     "slots": {
-        "primary": { "gapDays": 0 },
-        "secondary": { "gapDays": 2 }
+        "primary": {
+            "gapDays": 0
+        },
+        "secondary": {
+            "gapDays": 2
+        }
     },
     "sources": [
         {
             "id": "weeklygoals",
             "name": "Weekly Goals",
             "enabled": true,
-            "schedule": { "type": "weekly" },
+            "schedule": {
+                "type": "weekly"
+            },
             "packsByDay": [
-                ["Brown"],
-                ["Brown"],
-                ["Green"],
-                ["Green"],
-                ["Green"],
-                ["Blue"],
-                ["Violet"]
-            ]
-        },
-        {
-            "id": "weeklygoalsall",
-            "name": "Weekly Goals All",
-            "enabled": true,
-            "schedule": { "type": "weekday", "window": "SUN-MON" },
-            "packsByPlace": [
-                ["Red"],
-                [],
-                []
+                [
+                    "Brown"
+                ],
+                [
+                    "Brown"
+                ],
+                [
+                    "Green"
+                ],
+                [
+                    "Green"
+                ],
+                [
+                    "Green"
+                ],
+                [
+                    "Blue"
+                ],
+                [
+                    "Violet",
+                    "Red"
+                ]
             ]
         },
         {
             "id": "kingscup",
             "name": "King's Cup",
             "enabled": true,
-            "schedule": { "type": "weekday", "window": "MON-FRI" },
-            "packsByPlace": [["Violet"], ["Blue"], ["Green"]]
+            "schedule": {
+                "type": "weekday",
+                "window": "MON-FRI"
+            },
+            "packsByPlace": [
+                [
+                    "Violet"
+                ],
+                [
+                    "Blue"
+                ],
+                [
+                    "Green"
+                ]
+            ]
         },
         {
             "id": "tsearch",
             "name": "Treasure Search",
             "enabled": true,
-            "schedule": { "type": "weekday", "window": "MON-FRI" },
+            "schedule": {
+                "type": "weekday",
+                "window": "MON-FRI"
+            },
             "packsByPlace": [
-                ["Brown", "Green", "Green", "Blue", "Violet"],
-                ["Brown", "Green", "Green", "Blue"],
-                ["Brown", "Green", "Green"]
+                [
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue"
+                ],
+                [
+                    "Brown",
+                    "Green",
+                    "Green"
+                ]
             ],
-            "paidPacks": ["Brown", "Blue", "Violet"],
+            "paidPacks": [
+                "Brown",
+                "Blue",
+                "Violet"
+            ],
             "paidGroup": "offers"
         },
         {
             "id": "levelmastery",
             "name": "Level Mastery",
             "enabled": true,
-            "schedule": { "type": "weekday", "window": "MON-THU" },
+            "schedule": {
+                "type": "weekday",
+                "window": "MON-THU"
+            },
             "packsByPlace": [
-                ["Brown", "Brown", "Green", "Blue", "Violet", "Violet"],
-                ["Brown", "Brown", "Green", "Blue", "Violet"],
-                ["Brown", "Green", "Green"]
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Blue",
+                    "Violet",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Blue",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Green",
+                    "Green"
+                ]
             ]
         },
         {
             "id": "lorysderby",
             "name": "Lory's Derby",
             "enabled": true,
-            "schedule": { "type": "weekday", "window": "FRI-MON" },
+            "schedule": {
+                "type": "weekday",
+                "window": "FRI-MON"
+            },
             "packsByPlace": [
-                ["Brown", "Green", "Violet", "Red"],
-                ["Brown", "Green", "Violet"],
-                ["Brown", "Green"]
+                [
+                    "Brown",
+                    "Green",
+                    "Violet",
+                    "Red"
+                ],
+                [
+                    "Brown",
+                    "Green",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Green"
+                ]
             ],
-            "paidPacks": ["Brown", "Green", "Blue", "Violet", "Red"],
+            "paidPacks": [
+                "Brown",
+                "Green",
+                "Blue",
+                "Violet",
+                "Red"
+            ],
             "paidGroup": "offers"
         },
         {
             "id": "spacerace",
             "name": "Space Race",
             "enabled": true,
-            "schedule": { "type": "weekday", "window": "FRI-MON" },
+            "schedule": {
+                "type": "weekday",
+                "window": "FRI-MON"
+            },
             "packsByPlace": [
-                ["Brown", "Blue", "Violet"],
-                ["Brown", "Blue"],
-                ["Brown"]
+                [
+                    "Brown",
+                    "Blue",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Blue"
+                ],
+                [
+                    "Brown"
+                ]
             ],
-            "paidPacks": ["Brown", "Green", "Blue"],
+            "paidPacks": [
+                "Brown",
+                "Green",
+                "Blue"
+            ],
             "paidGroup": "offers"
         },
         {
             "id": "lightningrush",
             "name": "Lightning Rush",
             "enabled": true,
-            "schedule": { "type": "weekday", "window": "MON-FRI" },
+            "schedule": {
+                "type": "weekday",
+                "window": "MON-FRI"
+            },
             "packsByPlace": [
-                ["Green"],
+                [
+                    "Green"
+                ],
                 [],
                 []
             ],
-            "paidPacks": ["Brown", "Green", "Blue", "Violet", "Red"],
+            "paidPacks": [
+                "Brown",
+                "Green",
+                "Blue",
+                "Violet",
+                "Red"
+            ],
             "paidGroup": "offers"
         },
         {
             "id": "island_decoration",
             "name": "Island Decoration",
             "enabled": true,
-            "schedule": { "type": "monthly", "fromDay": 1, "toDay": 20 },
+            "schedule": {
+                "type": "monthly",
+                "fromDay": 1,
+                "toDay": 20
+            },
             "packsByPlace": [
-                ["Brown", "Brown", "Green", "Green", "Blue", "Violet", "Red"],
-                ["Brown", "Brown", "Green", "Green", "Blue", "Violet"],
-                ["Brown", "Brown", "Green", "Green", "Blue"]
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Violet",
+                    "Red"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue"
+                ]
             ]
         },
         {
             "id": "season_pass",
             "name": "Royal Pass",
             "enabled": true,
-            "schedule": { "type": "monthly", "fromDay": 1, "toDay": 30 },
+            "schedule": {
+                "type": "monthly",
+                "fromDay": 1,
+                "toDay": 30
+            },
             "packsByPlace": [
-                ["Brown", "Brown", "Green", "Green", "Blue", "Green", "Blue", "Blue", "Green", "Violet"],
-                ["Brown", "Brown", "Green", "Green", "Blue", "Green", "Blue", "Blue", "Green"],
-                ["Brown", "Brown", "Green", "Green", "Blue", "Green", "Blue"]
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Green",
+                    "Blue",
+                    "Blue",
+                    "Green",
+                    "Violet"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Green",
+                    "Blue",
+                    "Blue",
+                    "Green"
+                ],
+                [
+                    "Brown",
+                    "Brown",
+                    "Green",
+                    "Green",
+                    "Blue",
+                    "Green",
+                    "Blue"
+                ]
             ],
-            "paidPacks": ["Green", "Blue", "Blue", "Violet", "Violet", "Blue", "Violet", "Violet", "Blue", "Red"],
+            "paidPacks": [
+                "Green",
+                "Blue",
+                "Blue",
+                "Violet",
+                "Violet",
+                "Blue",
+                "Violet",
+                "Violet",
+                "Blue",
+                "Red"
+            ],
             "paidGroup": "passes"
         }
     ]

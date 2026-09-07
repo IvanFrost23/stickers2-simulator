@@ -83,14 +83,13 @@
 
 ## Дефолтные конфиги (2026-09-07)
 
-Оба дефолта — балансовые конфиги от геймдизайна (формат `packsByPlace`: паки за 1/2/3-е место; Weekly Goals All — отдельный пак за закрытие всех заданий недели, окно SUN-MON = воскресенье).
+Оба дефолта — балансовые конфиги от геймдизайна (формат `packsByPlace`: паки за 1/2/3-е место). Weekly Goals: паки из наград самих заданий по дням недели; второй пак в воскресенье — за закрытие всех заданий недели (последний чекпоинт полосы очков), объединён в тот же источник.
 
 ### Merge3 (`config.default.json`, зашит в `engine.js` как `DEFAULT_CONFIG`)
 
 | Источник | Расписание | Бесплатные паки (по месту) | Платные |
 |---|---|---|---|
-| Weekly Goals | всегда, по дням недели | пн Brown · вт Brown · ср Green · чт Green · пт Green · сб Blue · вс Blue | — |
-| Weekly Goals All | SUN-MON | 1-е: Violet; 2-е: —; 3-е: — | — |
+| Weekly Goals | всегда, по дням недели | пн Brown · вт Brown · ср Green · чт Green · пт Green · сб Blue · вс Blue Violet | — |
 | King's Cup | MON-FRI | 1-е: Red; 2-е: Violet; 3-е: Blue | — |
 | Treasure Search | MON-FRI | 1-е: Brown, Brown, Green, Blue, Violet; 2-е: Brown, Brown, Green, Blue; 3-е: Brown, Brown, Green | — |
 | Space Race | FRI-MON | 1-е: Brown, Brown, Green; 2-е: Brown, Brown; 3-е: Brown | — |
@@ -113,8 +112,7 @@
 
 | Источник | Расписание | Бесплатные паки (по месту) | Платные |
 |---|---|---|---|
-| Weekly Goals | всегда, по дням недели | пн Brown · вт Brown · ср Green · чт Green · пт Green · сб Blue · вс Violet | — |
-| Weekly Goals All | SUN-MON | 1-е: Red; 2-е: —; 3-е: — | — |
+| Weekly Goals | всегда, по дням недели | пн Brown · вт Brown · ср Green · чт Green · пт Green · сб Blue · вс Violet Red | — |
 | King's Cup | MON-FRI | 1-е: Violet; 2-е: Blue; 3-е: Green | — |
 | Treasure Search | MON-FRI | 1-е: Brown, Green, Green, Blue, Violet; 2-е: Brown, Green, Green, Blue; 3-е: Brown, Green, Green | Brown, Blue, Violet (`paidGroup: offers`) |
 | Level Mastery | MON-THU | 1-е: Brown, Brown, Green, Blue, Violet, Violet; 2-е: Brown, Brown, Green, Blue, Violet; 3-е: Brown, Green, Green | — |

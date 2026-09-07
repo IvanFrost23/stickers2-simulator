@@ -221,24 +221,9 @@ const DEFAULT_CONFIG = {
                     "Blue"
                 ],
                 [
-                    "Blue"
-                ]
-            ]
-        },
-        {
-            "id": "weeklygoalsall",
-            "name": "Weekly Goals All",
-            "enabled": true,
-            "schedule": {
-                "type": "weekday",
-                "window": "SUN-MON"
-            },
-            "packsByPlace": [
-                [
+                    "Blue",
                     "Violet"
-                ],
-                [],
-                []
+                ]
             ]
         },
         {

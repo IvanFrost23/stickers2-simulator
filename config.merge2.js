@@ -229,24 +229,9 @@ const MERGE2_CONFIG = {
                     "Blue"
                 ],
                 [
-                    "Violet"
-                ]
-            ]
-        },
-        {
-            "id": "weeklygoalsall",
-            "name": "Weekly Goals All",
-            "enabled": true,
-            "schedule": {
-                "type": "weekday",
-                "window": "SUN-MON"
-            },
-            "packsByPlace": [
-                [
+                    "Violet",
                     "Red"
-                ],
-                [],
-                []
+                ]
             ]
         },
         {
