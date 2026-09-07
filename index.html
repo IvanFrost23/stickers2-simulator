@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Stickers2 Simulator</title>
 <style>
     :root {
@@ -318,8 +319,10 @@
 </div>
 <div id="tooltip"></div>
 
-<script src="engine.js"></script>
-<script src="config.merge2.js"></script>
-<script src="app.js"></script>
+<script>
+    ["engine.js", "config.merge2.js", "app.js"].forEach(function (src) {
+        document.write('<script src="' + src + "?v=" + Date.now() + '"><\/script>');
+    });
+</script>
 </body>
 </html>

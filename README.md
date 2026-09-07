@@ -128,7 +128,7 @@
 
 Сайт: **https://ivanfrost23.github.io/stickers2-simulator/** (репозиторий `IvanFrost23/stickers2-simulator`, ветка `main`, Pages из корня).
 
-Обновление: скопировать свежие `index.html` / `engine.js` / `app.js` / `config.merge2.js` / `config.default.json` / `config.merge2.json` / `README.md` из этой папки в репозиторий `stickers2-simulator` и запушить в `main` — Pages пересоберётся сам за ~минуту.
+Обновление: скопировать свежие `index.html` / `engine.js` / `app.js` / `config.merge2.js` / `config.default.json` / `config.merge2.json` / `README.md` из этой папки в репозиторий `stickers2-simulator` и запушить в `main` — Pages пересоберётся сам за ~минуту. Скрипты подключаются из `index.html` с `?v=Date.now()`, так что браузер не кэширует `engine.js` / `app.js` / `config.merge2.js`; сам `index.html` Pages отдаёт с `max-age=600`, то есть после деплоя правки в разметке могут доехать до 10 минут.
 
 ## Как сверять с кодом игры
 
