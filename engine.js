@@ -659,6 +659,88 @@ function windowGrants(events, source, scenario, start, duration) {
     }
 }
 
+function levelGrants(events, source, levels, horizon) {
+    let granted = 0;
+    let passed = 0;
+    for (let d = 0; d < horizon; d++) {
+        const target = Math.floor((d + 1) * levels.perDay);
+        while (passed < target) {
+            passed++;
+            const hard = Math.floor(passed * levels.hardShare);
+            const earned = source.everyLevels
+                ? Math.floor(passed / source.everyLevels) * source.cards
+                : Math.floor((passed - hard) * source.cardsPerLevel + hard * source.cardsPerHardLevel);
+            if (earned > granted) {
+                events.push({ day: d, sourceId: source.id, cards: earned - granted });
+                granted = earned;
+            }
+        }
+    }
+}
+
+// the game picks tasksPerDay random tasks of the pool every day; the pick rotates here, so every task keeps its share of days
+function dailyTasks(source, day) {
+    const constant = source.tasks.filter((task) => task.constant);
+    const pool = source.tasks.filter((task) => !task.constant);
+    const amount = Math.min(source.tasksPerDay || pool.length, pool.length);
+    const picked = [];
+    for (let i = 0; i < amount; i++) {
+        picked.push(pool[(((day + i) % pool.length) + pool.length) % pool.length]);
+    }
+    return constant.concat(picked);
+}
+
+// first weekday when the progress of the week reaches the target of the goal given on weekday dow
+function goalDoneWeekday(task, dow, levels) {
+    for (let i = dow; i < 7; i++) {
+        const passed = levels ? Math.floor((i + 1) * levels.perDay) : 0;
+        const hard = levels ? Math.floor(passed * levels.hardShare) : 0;
+        const levelsDone = !task.levelsTarget || passed >= task.levelsTarget[dow];
+        const hardDone = !task.hardLevelsTarget || hard >= task.hardLevelsTarget[dow];
+        if (levelsDone && hardDone) {
+            return i;
+        }
+    }
+    return undefined;
+}
+
+// one calendar week of tasks: a goal is done when the week's progress reaches its target (never, if not by sunday),
+// points of done goals open the checkpoints of the points bar
+function weeklyTaskGrants(events, source, levels, weekStart, horizon) {
+    const grant = (day, packs) => {
+        if (day >= 0 && day < horizon) {
+            packs.forEach((p) => events.push({ day, sourceId: source.id, pack: p }));
+        }
+    };
+
+    const done = [];
+    let totalPoints = 0;
+    for (let dow = 0; dow < 7; dow++) {
+        dailyTasks(source, weekStart + dow).forEach((task) => {
+            const points = task.points ? task.points[dow] : 0;
+            totalPoints += points;
+            const doneDow = goalDoneWeekday(task, dow, levels);
+            if (doneDow !== undefined) {
+                done.push({ day: weekStart + doneDow, points });
+                grant(weekStart + doneDow, task.packsByDay[dow]);
+            }
+        });
+    }
+    done.sort((a, b) => a.day - b.day);
+
+    (source.pointsRewards || []).forEach((reward) => {
+        const threshold = reward.share === 1 ? totalPoints : Math.round(reward.share * totalPoints / 5) * 5;
+        let points = 0;
+        const reached = done.find((goal) => {
+            points += goal.points;
+            return points >= threshold;
+        });
+        if (reached) {
+            grant(reached.day, reward.packs);
+        }
+    });
+}
+
 function buildSchedule(cfg, scenario) {
     const start = new Date(`${scenario.startDate}T00:00:00`);
     const end = new Date(start);
@@ -695,6 +777,14 @@ function buildSchedule(cfg, scenario) {
                 const dow = (startDow + d) % 7;
                 (source.packsByDay && source.packsByDay[dow] || []).forEach((p) => events.push({ day: d, sourceId: source.id, pack: p }));
             }
+            for (let weekStart = -startDow; source.tasks && weekStart < horizon; weekStart += 7) {
+                weeklyTaskGrants(events, source, cfg.levels, weekStart, horizon);
+            }
+        } else if (sch.type === "levels") {
+            spans.push({
+                sourceId: source.id, start: 0, end: horizon, group: "weekly" 
+            });
+            levelGrants(events, source, cfg.levels, horizon);
         } else if (sch.type === "weekday") {
             const parts = sch.window.split("-");
             const a = WEEKDAYS.indexOf(parts[0]);
@@ -842,8 +932,7 @@ function chooseRarestClosed(book, rng) {
     return undefined;
 }
 
-function openPack(cfg, packName, book, state, rng, stats) {
-    const pack = cfg.packs[packName];
+function openCards(cfg, pack, book, state, rng, stats) {
     const probs = pack.probabilities || cfg.rarities.dropProbabilities;
     const amount = pack.amount;
     const pityCfg = cfg.pity || { startCounter: 2, chancePerStep: 0.3333 };
@@ -894,6 +983,10 @@ function openPack(cfg, packName, book, state, rng, stats) {
     }
 }
 
+function openPack(cfg, packName, book, state, rng, stats) {
+    openCards(cfg, cfg.packs[packName], book, state, rng, stats);
+}
+
 // ---------- simulation ----------
 function simulateRun(cfg, scenario, schedule, seed) {
     const rng = mulberry32(seed);
@@ -931,20 +1024,26 @@ function simulateRun(cfg, scenario, schedule, seed) {
         }
         while (evtIdx < schedule.events.length && schedule.events[evtIdx].day === d) {
             const evt = schedule.events[evtIdx++];
-            packCounts[evt.pack] = (packCounts[evt.pack] || 0) + 1;
+            if (evt.pack) {
+                packCounts[evt.pack] = (packCounts[evt.pack] || 0) + 1;
+            }
             if (book.finished) {
-                wastedPacks++;
+                wastedPacks += evt.pack ? 1 : 0;
                 continue;
             }
             const stats = {
                 cards: 0, new: 0, dup: 0, newByRarity, dupByRarity 
             };
-            openPack(cfg, evt.pack, book, state, rng, stats);
+            if (evt.pack) {
+                openPack(cfg, evt.pack, book, state, rng, stats);
+            } else {
+                openCards(cfg, { amount: evt.cards }, book, state, rng, stats);
+            }
             cumNew += stats.new;
             totalCards += stats.cards;
             totalDup += stats.dup;
             const ps = perSource[evt.sourceId];
-            ps.packs++;
+            ps.packs += evt.pack ? 1 : 0;
             ps.cards += stats.cards;
             ps.new += stats.new;
             ps.dup += stats.dup;
@@ -1020,8 +1119,8 @@ function runMonteCarlo(cfg, scenario, schedule) {
     const perSource = {};
     schedule.sources.forEach((s) => {
         perSource[s.id] = {
-            packs: runs[0].perSource[s.id].packs,
-            cards: runs[0].perSource[s.id].cards,
+            packs: avg((x) => x.perSource[s.id].packs),
+            cards: avg((x) => x.perSource[s.id].cards),
             new: avg((x) => x.perSource[s.id].new),
             dup: avg((x) => x.perSource[s.id].dup)
         };
@@ -1034,7 +1133,7 @@ function runMonteCarlo(cfg, scenario, schedule) {
         p90New,
         meanColl,
         packCounts: runs[0].packCounts,
-        totalCards: runs[0].totalCards,
+        totalCards: avg((x) => x.totalCards),
         totalNew: avg((x) => x.totalNew),
         totalDup: avg((x) => x.totalDup),
         newByRarity: rarN,
@@ -1084,7 +1183,27 @@ function validateConfig(cfg) {
         if (!s.id || !s.schedule || !s.schedule.type) {
             return "у источника нет id/schedule.type";
         }
-        const packLists = [s.packs || [], s.paidPacks || []].concat(s.packsByPlace || []).concat(s.packsByDay || []);
+        if (s.schedule.type === "levels") {
+            if (!cfg.levels || !(cfg.levels.perDay > 0) || !(cfg.levels.hardShare >= 0)) {
+                return `источник ${s.id}: нет levels.perDay или levels.hardShare`;
+            }
+            if (!(s.everyLevels > 0 && s.cards > 0) && !(s.cardsPerLevel > 0)) {
+                return `источник ${s.id}: нужен cardsPerLevel или everyLevels + cards`;
+            }
+        }
+        for (const task of s.tasks || []) {
+            if (!Array.isArray(task.packsByDay) || task.packsByDay.length !== 7) {
+                return `источник ${s.id}: у задания ${task.name} packsByDay должен иметь 7 массивов`;
+            }
+        }
+        for (const task of s.tasks || []) {
+            if ((task.levelsTarget || task.hardLevelsTarget) && !(cfg.levels && cfg.levels.perDay > 0 && cfg.levels.hardShare >= 0)) {
+                return `источник ${s.id}: заданию ${task.name} нужны levels.perDay и levels.hardShare`;
+            }
+        }
+        const rewardLists = (s.pointsRewards || []).map((reward) => reward.packs);
+        const taskLists = (s.tasks || []).reduce((lists, task) => lists.concat(task.packsByDay), rewardLists);
+        const packLists = [s.packs || [], s.paidPacks || []].concat(s.packsByPlace || []).concat(s.packsByDay || []).concat(taskLists);
         for (const list of packLists) {
             for (const p of list) {
                 if (!cfg.packs[p]) {
@@ -1110,6 +1229,7 @@ if (typeof module !== "undefined" && module.exports) {
         resetBook,
         rollSticker,
         chooseRarestClosed,
+        openCards,
         openPack,
         simulateRun,
         percentile,

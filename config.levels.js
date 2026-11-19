@@ -1,0 +1,422 @@
+/**
+ * Stickers2 simulator — levels (zenmatch) config. Generated from config.levels.json:
+ *   node -e "const c=require('./config.levels.json');console.log(JSON.stringify(c,null,4))"
+ * Kept as a JS global so the page works from file:// without fetch.
+ */
+
+const LEVELS_CONFIG = {
+    "meta": {
+        "version": 1,
+        "game": "levels (zenmatch, tile3 — единственная игра в A/B-тесте stickersBook2; season_collections2 пока @debug)",
+        "generatedFrom": "код игры, файлы перечислены в README (раздел Levels)",
+        "generatedAt": "2026-11-19",
+        "notes": [
+            "Все допущения модели перечислены в README, раздел Levels → Допущения. Ниже — коротко.",
+            "В таблице CollectionsConfigs блока для levels-игр нет — конфиг собран из кода.",
+            "levels.perDay = 3.35 — GameBase.AVG_LEVELS_FINISHED.tile3, единственная цифра в коде. Единица в коде не подписана: считаю, что это побед в день.",
+            "levels.hardShare — доля hard-уровней в zenmatch/res/levels: 50 из 375.",
+            "Победа в уровне: 1 карта (hard — 3), умноженная на AVG_LEVELS_FINISHED.match3 / AVG_LEVELS_FINISHED.tile3 = 4.95 / 3.35.",
+            "Этап локации: 4 карты за этап; этап принят за 100 звёзд (этапы 20–24), уровень даёт в среднем 1.27 звезды → раз в 79 уровней.",
+            "Weekly Goals: пул zenmatch — LOGIN_DAYS каждый день плюс 4 из 5 заданий в день (выбор по кругу вместо случайного).",
+            "Weekly Goals: цели PASS_LEVEL и PASS_HARD_LEVEL копятся за неделю и зависят от levels.perDay; остальные задания считаются выполненными в свой день.",
+            "Weekly Goals: Blue и Red — за чекпоинты полосы очков (55% и 100% очков недели).",
+            "Не включены: Blue за MAKE_PURCHASE, паки из магазина, трата очков за дубликаты. Миссии и офферы levels-игр паков в коде не дают."
+        ]
+    },
+    "rarities": {
+        "names": [
+            "1★",
+            "2★",
+            "3★",
+            "4★",
+            "5★",
+            "Gold"
+        ],
+        "dropProbabilities": [
+            0.3435,
+            0.2623,
+            0.1756,
+            0.1062,
+            0.0625,
+            0.05
+        ],
+        "duplicatePoints": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            5
+        ]
+    },
+    "collections": [
+        [
+            8,
+            1,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            7,
+            2,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            7,
+            1,
+            1,
+            0,
+            0,
+            0
+        ],
+        [
+            5,
+            3,
+            1,
+            0,
+            0,
+            0
+        ],
+        [
+            3,
+            4,
+            1,
+            1,
+            0,
+            0
+        ],
+        [
+            2,
+            4,
+            1,
+            1,
+            1,
+            0
+        ],
+        [
+            1,
+            3,
+            2,
+            1,
+            1,
+            1
+        ],
+        [
+            0,
+            4,
+            2,
+            1,
+            1,
+            1
+        ],
+        [
+            0,
+            3,
+            2,
+            1,
+            2,
+            1
+        ],
+        [
+            0,
+            2,
+            2,
+            2,
+            1,
+            2
+        ],
+        [
+            0,
+            1,
+            3,
+            1,
+            2,
+            2
+        ],
+        [
+            0,
+            0,
+            3,
+            2,
+            2,
+            2
+        ],
+        [
+            0,
+            0,
+            3,
+            2,
+            1,
+            3
+        ],
+        [
+            0,
+            0,
+            2,
+            2,
+            2,
+            3
+        ],
+        [
+            0,
+            0,
+            0,
+            4,
+            2,
+            3
+        ]
+    ],
+    "season": {
+        "months": 2,
+        "canRestart": true
+    },
+    "pity": {
+        "startCounter": 2,
+        "chancePerStep": 0.3333
+    },
+    "packs": {
+        "Brown": {
+            "amount": 2
+        },
+        "Green": {
+            "amount": 3
+        },
+        "Blue": {
+            "amount": 4
+        },
+        "Violet": {
+            "amount": 6,
+            "firstCardMinRarity": 2,
+            "pity": true
+        },
+        "Red": {
+            "amount": 6,
+            "guaranteedNew": true
+        }
+    },
+    "levels": {
+        "perDay": 3.35,
+        "hardShare": 0.1333
+    },
+    "sources": [
+        {
+            "id": "level",
+            "name": "Победа в уровне",
+            "enabled": true,
+            "schedule": {
+                "type": "levels"
+            },
+            "cardsPerLevel": 1.4776,
+            "cardsPerHardLevel": 4.4328
+        },
+        {
+            "id": "location",
+            "name": "Этап локации",
+            "enabled": true,
+            "schedule": {
+                "type": "levels"
+            },
+            "everyLevels": 79,
+            "cards": 4
+        },
+        {
+            "id": "weeklygoals",
+            "name": "Weekly Goals",
+            "enabled": true,
+            "schedule": {
+                "type": "weekly"
+            },
+            "tasksPerDay": 4,
+            "tasks": [
+                {
+                    "name": "LOGIN_DAYS",
+                    "constant": true,
+                    "points": [
+                        10,
+                        10,
+                        10,
+                        20,
+                        20,
+                        20,
+                        30
+                    ],
+                    "packsByDay": [
+                        [],
+                        [],
+                        [],
+                        [
+                            "Green"
+                        ],
+                        [],
+                        [],
+                        []
+                    ]
+                },
+                {
+                    "name": "SPEND_HARD",
+                    "points": [
+                        10,
+                        30,
+                        10,
+                        50,
+                        20,
+                        20,
+                        30
+                    ],
+                    "packsByDay": [
+                        [
+                            "Brown"
+                        ],
+                        [],
+                        [
+                            "Green"
+                        ],
+                        [],
+                        [
+                            "Green"
+                        ],
+                        [],
+                        [
+                            "Violet"
+                        ]
+                    ]
+                },
+                {
+                    "name": "PASS_HARD_LEVEL",
+                    "points": [
+                        20,
+                        20,
+                        20,
+                        40,
+                        40,
+                        40,
+                        60
+                    ],
+                    "hardLevelsTarget": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        8
+                    ],
+                    "packsByDay": [
+                        [
+                            "Brown"
+                        ],
+                        [],
+                        [
+                            "Brown"
+                        ],
+                        [],
+                        [
+                            "Green"
+                        ],
+                        [],
+                        [
+                            "Blue"
+                        ]
+                    ]
+                },
+                {
+                    "name": "USE_BOOSTER",
+                    "points": [
+                        10,
+                        10,
+                        20,
+                        20,
+                        20,
+                        30,
+                        45
+                    ],
+                    "packsByDay": [
+                        [],
+                        [
+                            "Brown"
+                        ],
+                        [],
+                        [
+                            "Green"
+                        ],
+                        [],
+                        [
+                            "Blue"
+                        ],
+                        []
+                    ]
+                },
+                {
+                    "name": "PASS_LEVEL",
+                    "points": [
+                        10,
+                        15,
+                        20,
+                        20,
+                        20,
+                        50,
+                        60
+                    ],
+                    "levelsTarget": [
+                        5,
+                        10,
+                        15,
+                        20,
+                        25,
+                        35,
+                        45
+                    ],
+                    "packsByDay": [
+                        [],
+                        [],
+                        [],
+                        [],
+                        [],
+                        [],
+                        []
+                    ]
+                },
+                {
+                    "name": "COLLECT_TILES",
+                    "points": [
+                        10,
+                        10,
+                        20,
+                        20,
+                        20,
+                        30,
+                        45
+                    ],
+                    "packsByDay": [
+                        [],
+                        [],
+                        [],
+                        [],
+                        [],
+                        [],
+                        []
+                    ]
+                }
+            ],
+            "pointsRewards": [
+                {
+                    "share": 0.55,
+                    "packs": [
+                        "Blue"
+                    ]
+                },
+                {
+                    "share": 1,
+                    "packs": [
+                        "Red"
+                    ]
+                }
+            ]
+        }
+    ]
+};

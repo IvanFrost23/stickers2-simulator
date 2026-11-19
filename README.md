@@ -4,7 +4,9 @@
 
 Открывается двойным кликом по `index.html` — зависимостей и сборки нет.
 
-Переключатель «Игра» вверху страницы выбирает конфиг: **Merge3** (mergecraft / wondermerge / fairy / hustlemerge — `config.default.json`) или **Merge2** (garden — `config.merge2.json`). Выбор дублируется в хэше адреса: `index.html#merge2` открывает сразу merge2.
+Переключатель «Игра» вверху страницы выбирает конфиг: **Merge3** (mergecraft / wondermerge / fairy / hustlemerge — `config.default.json`) **Merge2** (garden — `config.merge2.json`) или **Levels** (zenmatch — `config.levels.json`). Выбор дублируется в хэше адреса: `index.html#merge2` открывает сразу merge2, `index.html#levels` — levels.
+
+Для levels-игр вверху появляется поле «Уровней в день»: в них основной источник — карты за победу в уровне, а не паки миссий.
 
 ## Что внутри
 
@@ -19,6 +21,8 @@
   ```
 
 Механика открытия пака — точный порт `StickersBook2.givePrize` из `features/src/season_collections2/stickersbook.js`: общий пул по 15 коллекциям, roll по рарности с нормализацией на непустые бакеты, `guaranteedNew` (Red), `firstCardMinRarity` + pity (Violet), дубликаты → очки `min(rarity+1, 5)`.
+
+- `config.levels.json` — конфиг levels-игр (zenmatch), собран из кода, см. раздел ниже. `config.levels.js` — тот же JSON в глобале `LEVELS_CONFIG`, перегенерируется той же командой с `config.levels.json`.
 
 ## Формат конфига (JSON)
 
@@ -48,7 +52,10 @@
         { "id": "tsearch", "schedule": { "type": "weekday", "window": "MON-FRI" },
           "packs": ["Brown", "Brown", "Green", "Blue", "Violet"] },       // стейджи, равномерно по окну
         { "id": "weeklygoals", "schedule": { "type": "weekly" },
-          "packsByDay": [["Brown", "Brown"], ...] },                      // 7 массивов, пн..вс
+          "packsByDay": [["Brown", "Brown"], ...],                        // 7 массивов, пн..вс
+          "tasksPerDay": 4,                                               // опционально: пул заданий с очками и целями,
+          "tasks": [{ "name": "SPEND_HARD", "points": [...], "packsByDay": [...] }],   // см. раздел Levels
+          "pointsRewards": [{ "share": 0.55, "packs": ["Blue"] }] },
         { "id": "island_decoration", "schedule": { "type": "monthly", "fromDay": 1, "toDay": 20 }, "packs": [...] },
         { "id": "softfeast", "schedule": { "type": "rotation", "slot": "primary", "duration": 3 }, "packsByPlace": [...] },
         { "id": "buildpass", "schedule": { "type": "rotation", "slot": "primary", "duration": 3, "cooldown": 28 },
@@ -69,6 +76,7 @@
 | `monthly` | окно по числам месяца | `fromDay`, `toDay` |
 | `rotation` | слот-семафор: в слоте живёт одна миссия, следующая — round-robin по самому давнему завершению | `slot` (`primary`/`secondary`), `duration` (дни), `cooldown` (личный кулдаун типа, дни) |
 | `offer` | независимый таймер | `duration`, `cooldown` |
+| `levels` | карты без пака за пройденные уровни (`givePrize(amount)` без опций пака) | у источника `cardsPerLevel` + `cardsPerHardLevel` (за каждый уровень) или `everyLevels` + `cards` (раз в N уровней); темп — в корне конфига: `levels.perDay`, `levels.hardShare` |
 
 Паузы между миссиями слота — `slots.primary.gapDays` / `slots.secondary.gapDays` (порт `Mission.SEMAPHORE_COOLDOWNS`: primary ≈ 0, secondary 2 дня).
 
@@ -124,11 +132,72 @@
 
 Не включены: Hungry Games (три однодневных запуска пт/сб/вс), generator-офферы, магазин.
 
+### Levels (`config.levels.json` / `config.levels.js`, 2026-11-19)
+
+Собран из кода: блока для levels-игр в таблице CollectionsConfigs нет. Базовая игра — zenmatch (tile3), единственная в A/B-тесте `stickersBook2` (`season_collections2` там пока `@debug`).
+
+| Источник | Расписание | Что даёт | Откуда |
+|---|---|---|---|
+| Победа в уровне | каждый уровень | 1 карта, hard — 3, с множителем `AVG_LEVELS_FINISHED.match3 / AVG_LEVELS_FINISHED.<тип>` (tile3: 4.95 / 3.35 → 1.4776 и 4.4328) | `stickersbook.js` → `getLevelReward`, `cleverapps/levels/game/gamebase.js` → `getNormalizedLevelReward` |
+| Этап локации | раз в 79 уровней | 4 карты | `RewardsConfig.LocationSimple1/2` (`cleverapps/src/utils/rewards/rewardsconfig.json`), `features/src/location_simple/simplelocation.js` |
+| Weekly Goals | всегда, по дням недели | задания (см. ниже) + Blue за 55% очков недели и Red за 100% | `features/src/weekly_goals/configs/weeklygoalslevelsconfig.json`, `weeklygoalstile3config.json`, `features/src/weekly_goals/rewardsconfig.js`, `weeklygoals.js` |
+
+Задания Weekly Goals в zenmatch (очки и цели — по дням недели, пн..вс; цели копятся за неделю):
+
+| Задание | В пуле | Паки | Цель |
+|---|---|---|---|
+| LOGIN_DAYS | каждый день | чт Green | вход в игру |
+| SPEND_HARD | 4 дня из 5 | пн Brown · ср Green · пт Green · вс Violet | 10…70 монет — считается выполненным в свой день |
+| PASS_HARD_LEVEL | 4 дня из 5 | пн Brown · ср Brown · пт Green · вс Blue | 1, 2, 3, 4, 5, 6, 8 hard-уровней с начала недели |
+| USE_BOOSTER | 4 дня из 5 | вт Brown · чт Green · сб Blue | 2…15 бустеров — считается выполненным в свой день |
+| PASS_LEVEL | 4 дня из 5 | — | 5, 10, 15, 20, 25, 35, 45 уровней с начала недели |
+| COLLECT_TILES | 4 дня из 5 | — | 150…1550 тайлов — считается выполненным в свой день |
+
+При 3.35 уровня в день игрок проходит за неделю 23 уровня и 3 hard-уровня: пятничный и воскресный паки PASS_HARD_LEVEL и Red за полную полосу очков недостижимы. Все паки Weekly Goals открываются примерно с 9 уровней в день (8 hard-уровней за неделю).
+
+Формат в конфиге: у источника `tasks` (у задания `points`, `packsByDay`, опционально `constant`, `levelsTarget`, `hardLevelsTarget` — по 7 значений), `tasksPerDay` и `pointsRewards` (`share` — доля очков недели, `packs`).
+
+#### Допущения
+
+Темп игры:
+
+- `levels.perDay = 3.35` — `GameBase.AVG_LEVELS_FINISHED.tile3`, единственная цифра о темпе в коде. Единица в коде не подписана (константа добавлена в 2024-08 для нормализации наград между типами игр) — считаю, что это побед в день. Меняется полем «Уровней в день».
+- Игрок играет каждый день с одним и тем же темпом, все уровни в счёте — победы. Бонусные уровни (карт не дают) не учитываются.
+- `levels.hardShare = 0.1333` — доля hard-уровней в `zenmatch/res/levels` (50 из 375), hard-уровни идут равномерно. Superhard считается как hard (так в коде), tricky-уровней в zenmatch нет.
+
+Победа в уровне:
+
+- Дробная часть награды копится между уровнями; в игре — случайное округление с тем же средним.
+- Множитель 4.95 / 3.35 — для tile3. Для другого типа игры пересчитать `cardsPerLevel` / `cardsPerHardLevel` (match3: 1 и 3) и `hardShare`.
+
+Этап локации:
+
+- Этап принят за 100 звёзд (этапы 20–24 из 51). На ранних этапах нужно 5–70 звёзд, на поздних — до 225, то есть карты идут чаще или реже.
+- Уровень даёт в среднем 1.27 звезды (обычный — 1, hard — 3) → этап раз в 79 уровней.
+- Игрок не дошёл до конца локаций (после последнего этапа награды нет).
+
+Weekly Goals:
+
+- Пул zenmatch — задания общего levels-конфига без выключенных фич (treasure_search, daily_cup, weekly_tournament) плюс tile3-конфиг. Для другой игры пул пересобрать (`require` / `excludeTypes` в конфигах заданий).
+- Из 5 заданий пула игра выбирает на день 4 случайных; в симуляторе выбор идёт по кругу, каждое задание попадает в 4 дня из 5.
+- Прогресс заданий копится за неделю, задание прошлого дня можно закрыть позже на той же неделе — пак приходит в день, когда цель достигнута; не достигнута к воскресенью — пак пропадает.
+- Цели PASS_LEVEL и PASS_HARD_LEVEL считаются от `levels.perDay` и `levels.hardShare`. SPEND_HARD, USE_BOOSTER и COLLECT_TILES считаются выполненными в свой день: расход монет и бустеров и число тайлов на уровень в модели не считаются. При низком темпе это завышает паки и очки.
+- PASS_LEVEL считает все победы, включая hard-уровни.
+- Чекпоинты полосы очков: порог = доля от суммы очков заданий недели, округлённая до 5 (как в коде); пак приходит в день, когда набраны очки.
+- Не включён Blue за MAKE_PURCHASE (платное задание в один случайный день недели, занимает слот одного из 4 заданий и в сумму очков не входит).
+- Первая неполная неделя периода считается так, будто игрок играл в том же темпе и до начала периода.
+
+Общее:
+
+- Книга и Weekly Goals доступны игроку с первого дня периода (уровни открытия фич не моделируются), бандл сезона есть, игрок в группе A/B-теста с новой книгой.
+- Карты и паки, пришедшие после полного сбора книги (второго, если рестарт включён), пропадают; рестарт книги происходит сразу после сбора (в игре — по действию игрока).
+- Не включены: паки из магазина (`stickers2_0..5`), покупки за очки дубликатов. Миссии и офферы levels-игр (Lightning Rush, Chain Sale и др.) паков в коде не дают.
+
 ## Деплой на GitHub Pages
 
 Сайт: **https://ivanfrost23.github.io/stickers2-simulator/** (репозиторий `IvanFrost23/stickers2-simulator`, ветка `main`, Pages из корня).
 
-Обновление: скопировать свежие `index.html` / `engine.js` / `app.js` / `config.merge2.js` / `config.default.json` / `config.merge2.json` / `README.md` из этой папки в репозиторий `stickers2-simulator` и запушить в `main` — Pages пересоберётся сам за ~минуту. Скрипты подключаются из `index.html` с `?v=Date.now()`, так что браузер не кэширует `engine.js` / `app.js` / `config.merge2.js`; сам `index.html` Pages отдаёт с `max-age=600`, то есть после деплоя правки в разметке могут доехать до 10 минут.
+Обновление: скопировать свежие `index.html` / `engine.js` / `app.js` / `config.merge2.js` / `config.levels.js` / `config.default.json` / `config.merge2.json` / `config.levels.json` / `README.md` из этой папки в репозиторий `stickers2-simulator` и запушить в `main` — Pages пересоберётся сам за ~минуту. Скрипты подключаются из `index.html` с `?v=Date.now()`, так что браузер не кэширует `engine.js` / `app.js` / `config.merge2.js`; сам `index.html` Pages отдаёт с `max-age=600`, то есть после деплоя правки в разметке могут доехать до 10 минут.
 
 ## Как сверять с кодом игры
 

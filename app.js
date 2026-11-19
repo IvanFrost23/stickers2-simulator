@@ -3,7 +3,7 @@
  * Depends on engine.js (loaded before this file in index.html).
  */
 
-const GAME_CONFIGS = { merge3: DEFAULT_CONFIG, merge2: MERGE2_CONFIG };
+const GAME_CONFIGS = { merge3: DEFAULT_CONFIG, merge2: MERGE2_CONFIG, levels: LEVELS_CONFIG };
 const gameFromHash = window.location.hash.replace("#", "");
 const disabledSources = new Set();
 const segState = {
@@ -366,8 +366,9 @@ function renderTimeline(container, schedule) {
         if (!eventsBySourceDay.has(key)) {
             eventsBySourceDay.set(key, []);
         }
-        eventsBySourceDay.get(key).push(evt.pack);
+        eventsBySourceDay.get(key).push(evt);
     });
+    const cardsColor = css("--accent") || "#2a78d6";
 
     rows.forEach((row, ri) => {
         const cy = padT + ri * rowH + rowH / 2;
@@ -386,15 +387,21 @@ function renderTimeline(container, schedule) {
                 opacity: span.inactive ? 0.25 : 0.75
             }, svg);
             rect.addEventListener("pointermove", (e) => {
-                const packs = [];
-                for (let d = span.start; d < span.end; d++) {
-                    (eventsBySourceDay.get(`${row.id}|${d}`) || []).forEach((p) => packs.push(p));
-                }
                 const counts = {};
-                packs.forEach((p) => {
-                    counts[p] = (counts[p] || 0) + 1; 
-                });
+                let cards = 0;
+                for (let d = span.start; d < span.end; d++) {
+                    (eventsBySourceDay.get(`${row.id}|${d}`) || []).forEach((evt) => {
+                        if (evt.pack) {
+                            counts[evt.pack] = (counts[evt.pack] || 0) + 1;
+                        } else {
+                            cards += evt.cards;
+                        }
+                    });
+                }
                 const tooltipRows = PACK_ORDER.filter((p) => counts[p]).map((p) => ({ color: css(PACK_CSS[p]), value: `×${counts[p]}`, label: `${p} Pack` }));
+                if (cards) {
+                    tooltipRows.push({ color: cardsColor, value: `×${cards}`, label: "карты без пака" });
+                }
                 showTooltip(
                     e.clientX, 
                     e.clientY,
@@ -405,11 +412,11 @@ function renderTimeline(container, schedule) {
             rect.addEventListener("pointerleave", hideTooltip);
         });
         for (let d = 0; d < n; d++) {
-            const packs = eventsBySourceDay.get(`${row.id}|${d}`);
-            if (packs) {
-                packs.slice(0, 3).forEach((p, pi) => {
+            const dayEvents = eventsBySourceDay.get(`${row.id}|${d}`);
+            if (dayEvents) {
+                dayEvents.slice(0, 3).forEach((evt, pi) => {
                     el("circle", {
-                        cx: x(d + 0.5), cy: cy - 4 + pi * 4, r: 2.6, fill: css(PACK_CSS[p]), stroke: "var(--surface-1)", "stroke-width": 1 
+                        cx: x(d + 0.5), cy: cy - 4 + pi * 4, r: 2.6, fill: evt.pack ? css(PACK_CSS[evt.pack]) : cardsColor, stroke: "var(--surface-1)", "stroke-width": 1 
                     }, svg);
                 });
             }
@@ -434,9 +441,11 @@ function renderHero(cfg, scenario, schedule, agg) {
 
     const sentences = [];
     const totalPacks = PACK_ORDER.reduce((s, p) => s + (agg.packCounts[p] || 0), 0);
+    const looseCards = schedule.events.reduce((s, evt) => s + (evt.cards || 0), 0);
+    const loose = looseCards ? ` и ${fmt(looseCards)} ${plural(looseCards, "карту", "карты", "карт")} без паков` : "";
     sentences.push(`За ${H} ${plural(H, "день", "дня", "дней")} игрок получает ${
         fmt(totalPacks)} ${plural(totalPacks, "пак", "пака", "паков")
-    } — это ${fmt(agg.totalCards)} ${plural(agg.totalCards, "карта", "карты", "карт")}.`);
+    }${loose} — открыто ${fmt(agg.totalCards, 0)} ${plural(agg.totalCards, "карта", "карты", "карт")}.`);
 
     if (agg.bookDonePct >= 0.5) {
         const day = agg.bookDoneP50;
@@ -460,6 +469,13 @@ function renderHero(cfg, scenario, schedule, agg) {
         if (agg.wastedPacks > 0.5) {
             sentences.push(`~${fmt(agg.wastedPacks, 0)} ${plural(agg.wastedPacks, "пак выпадает", "пака выпадают", "паков выпадают")} уже после полного сбора — впустую.`);
         }
+    } else if (agg.bookDonePct >= 0.05) {
+        const donePct = Math.round(agg.bookDonePct * 100);
+        heroNum.textContent = `${donePct}% прогонов`;
+        heroSub.textContent = `книга из ${poolTotal} стикеров собрана к концу периода`;
+        dot.style.background = css("--status-bad");
+        vLabel.textContent = "Книга закрывается не всегда";
+        sentences.push(`Все ${poolTotal} стикеров собраны только в ${donePct}% прогонов, в них — в среднем к ${fmtDateLong(schedule.dateOf(agg.bookDoneP50))}.`);
     } else {
         heroNum.textContent = `${fmt(agg.meanNew[H - 1], 0)} из ${poolTotal}`;
         heroSub.textContent = "стикеров книги собрано к концу периода (в среднем)";
@@ -476,7 +492,7 @@ function renderHero(cfg, scenario, schedule, agg) {
     const dupPct = agg.totalCards ? agg.totalDup / agg.totalCards * 100 : 0;
     [
         { v: fmt(totalPacks), l: "паков" },
-        { v: fmt(agg.totalCards), l: "карт" },
+        { v: fmt(agg.totalCards, 0), l: "карт" },
         { v: `${fmt(dupPct, 0)}%`, l: "дубликаты" },
         { v: fmt(agg.points), l: "очков за дубли" }
     ].forEach((item) => {
@@ -515,7 +531,7 @@ function renderSources(agg, schedule, scenario) {
     box.textContent = "";
     const rows = schedule.sources
         .map((s) => ({ s, d: agg.perSource[s.id] }))
-        .filter((r) => r.d && r.d.packs > 0)
+        .filter((r) => r.d && r.d.cards > 0)
         .sort((a, b) => b.d.new - a.d.new);
     if (!rows.length) {
         div("", box, "Нет источников паков в этом сценарии.");
@@ -544,12 +560,15 @@ function renderSources(agg, schedule, scenario) {
         b.textContent = fmt(r.d.new, 1);
         val.appendChild(b);
         const rest = document.createElement("span");
-        rest.textContent = `  ·  ${fmt(r.d.packs)} → ${fmt(r.d.cards)}`;
+        rest.textContent = r.d.packs ? `  ·  ${fmt(r.d.packs, 0)} → ${fmt(r.d.cards, 0)}` : `  ·  ${fmt(r.d.cards, 0)} ${plural(r.d.cards, "карта", "карты", "карт")}`;
         val.appendChild(rest);
         const packsOfSource = {};
+        let cardsOfSource = 0;
         schedule.events.forEach((evt) => {
-            if (evt.sourceId === r.s.id) {
+            if (evt.sourceId === r.s.id && evt.pack) {
                 packsOfSource[evt.pack] = (packsOfSource[evt.pack] || 0) + 1;
+            } else if (evt.sourceId === r.s.id) {
+                cardsOfSource += evt.cards;
             }
         });
         const chips = div("src-chips", box);
@@ -563,6 +582,12 @@ function renderSources(agg, schedule, scenario) {
             chip.appendChild(document.createTextNode(`${p} ×${packsOfSource[p]}`));
             chips.appendChild(chip);
         });
+        if (cardsOfSource) {
+            const chip = document.createElement("span");
+            chip.className = "chip";
+            chip.textContent = `карты без пака ×${cardsOfSource}`;
+            chips.appendChild(chip);
+        }
     });
 }
 
@@ -666,6 +691,8 @@ function buildSourceChecks() {
         cb.addEventListener("change", () => {
             if (cb.checked) {
                 disabledSources.delete(s.id);
+                s.enabled = true;
+                refreshCfgText();
             } else {
                 disabledSources.add(s.id);
             }
@@ -733,6 +760,14 @@ function buildQuickEdit() {
     box.appendChild(amtGrp);
 }
 
+function buildLevelsControl() {
+    const input = document.getElementById("levelsPerDay");
+    document.getElementById("levelsGroup").style.display = config.levels ? "" : "none";
+    if (config.levels) {
+        input.value = config.levels.perDay;
+    }
+}
+
 function applyConfig(newCfg) {
     const err = validateConfig(newCfg);
     const errEl = document.getElementById("cfgError");
@@ -745,13 +780,15 @@ function applyConfig(newCfg) {
     refreshCfgText();
     buildSourceChecks();
     buildQuickEdit();
+    buildLevelsControl();
     return true;
 }
 
 function buildSegs() {
     buildSeg("gameSeg", [
         { value: "merge3", label: "Merge3 (Mergecraft)" },
-        { value: "merge2", label: "Merge2 (Garden)" }
+        { value: "merge2", label: "Merge2 (Garden)" },
+        { value: "levels", label: "Levels (Zenmatch)" }
     ], segState.game, (v) => {
         segState.game = v;
         window.location.hash = v;
@@ -784,6 +821,12 @@ function buildSegs() {
 // ---------- main ----------
 ["startDate", "runs", "seed", "restartBook"].forEach((id) => {
     document.getElementById(id).addEventListener("change", run);
+});
+document.getElementById("levelsPerDay").addEventListener("change", (e) => {
+    config.levels.perDay = Math.max(1, parseFloat(e.target.value) || 1);
+    e.target.value = config.levels.perDay;
+    refreshCfgText();
+    run();
 });
 document.getElementById("cfgApply").addEventListener("click", () => {
     try {

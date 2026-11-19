@@ -233,6 +233,7 @@
             <div class="seg-group"><span>Период</span><div class="seg" id="periodSeg" role="group" aria-label="Период"></div></div>
             <div class="seg-group"><span>Игрок</span><div class="seg" id="playerSeg" role="group" aria-label="Игрок"></div></div>
             <div class="seg-group"><span>Место в соревнованиях</span><div class="seg" id="placeSeg" role="group" aria-label="Место"></div></div>
+            <div class="seg-group ctl" id="levelsGroup"><span>Уровней в день</span><input type="number" id="levelsPerDay" min="1" max="500" step="any" aria-label="Уровней в день"></div>
         </div>
         <details class="adv">
             <summary>Ещё настройки</summary>
@@ -315,12 +316,12 @@
         </div>
     </details>
 
-    <p class="foot">Допущения: учитываются только окна миссий, целиком попавшие в период; многостейджевые награды распределены по окну равномерно; очки за дубликаты копятся, но не тратятся; книга сбрасывается каждые 2 календарных месяца (сезон). Паки открываются по точной логике givePrize из кода игры. Конфиг сгенерирован из кода merge3 (см. README).</p>
+    <p class="foot">Допущения: учитываются только окна миссий, целиком попавшие в период; многостейджевые награды распределены по окну равномерно; очки за дубликаты копятся, но не тратятся; книга сбрасывается каждые 2 календарных месяца (сезон). Паки открываются по точной логике givePrize из кода игры. Откуда взяты дефолтные конфиги игр — см. README.</p>
 </div>
 <div id="tooltip"></div>
 
 <script>
-    ["engine.js", "config.merge2.js", "app.js"].forEach(function (src) {
+    ["engine.js", "config.merge2.js", "config.levels.js", "app.js"].forEach(function (src) {
         document.write('<script src="' + src + "?v=" + Date.now() + '"><\/script>');
     });
 </script>
